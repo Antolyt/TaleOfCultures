@@ -4,18 +4,54 @@ using UnityEngine;
 
 public class Targeter : MonoBehaviour {
 
+    public Dictionary<string, GameObject> targets;
     public GameObject target;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void Start()
     {
-        target = collision.gameObject;
+        targets = new Dictionary<string, GameObject>();
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collider)
     {
-        if(target && target.gameObject.name == collision.gameObject.name)
+        if(!targets.ContainsKey(collider.name))
+            AddTarget(collider.gameObject);
+        Debug.Log("entered" + collider.name);
+    }
+
+    private void OnTriggerExit2D(Collider2D collider)
+    {
+        RemoveTarget(collider.gameObject);
+        Debug.Log("left" + collider.name);
+    }
+
+    public void AddTarget(GameObject gameObject)
+    {
+        targets.Add(gameObject.name, gameObject);
+        if(gameObject.name != "Field")
+            target = gameObject;
+    }
+
+    public void RemoveTarget(GameObject gameObject)
+    {
+        targets.Remove(gameObject.name);
+        if (gameObject.name != "Field")
         {
-            target = null;
+            if (target.name == gameObject.name)
+                target = null;
+            foreach (GameObject t in targets.Values)
+            {
+                if (t.name != "Field")
+                {
+                    target = t;
+                    break;
+                }
+            }
         }
+    }
+
+    public bool IsInField()
+    {
+        return targets.ContainsKey("Field");
     }
 }
