@@ -10,7 +10,9 @@ public class Savegame : MonoBehaviour
     public static Savegame savegame;
     private static string saveGamePath;        // Requieres set in Awake
     public static SavegameData savegameData;
+
     //public GameObject plants;
+    //public Inventory inventory;
 
     void Awake()
     {
@@ -48,13 +50,13 @@ public class Savegame : MonoBehaviour
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Create(saveGamePath);
 
-        SavegameData sd = new SavegameData();
+        savegameData = new SavegameData();
         foreach(Plant plant in plants.GetComponentsInChildren<Plant>())
         {
-            sd.plants.Add(plant.PlantToData());
+            savegameData.plants.Add(plant.PlantToData());
         }
 
-        bf.Serialize(file, sd);
+        bf.Serialize(file, savegameData);
         file.Close();
 
         Debug.Log("File Saved");
@@ -86,8 +88,12 @@ public class SavegameData
 {
     public List<PlantData> plants;
 
+    //Inventory
+    public ItemData[,] itemData;
+
     public SavegameData()
     {
         plants = new List<PlantData>();
+        itemData = new ItemData[2,5];
     }
 }

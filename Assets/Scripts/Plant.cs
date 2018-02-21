@@ -19,6 +19,8 @@ public class Plant : MonoBehaviour
     public PlantState[] plantStates;
     private int currentPlantState;
 
+    public Fruit droppedFruit;
+
     private void Start()
     {
         if(plantStates.Length > 0)

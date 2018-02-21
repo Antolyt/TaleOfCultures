@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     Vector3 viewingDirection;
+    public Inventory inventory;
     public GameObject itemInHand;
 
     // Use this for initialization
@@ -57,6 +58,8 @@ public class PlayerController : MonoBehaviour
         {
             if (targeter.target)
             {
+                Item item = targeter.target.GetComponent<Plant>().droppedFruit;
+                inventory.AddItem(item);
                 Destroy(targeter.target);
                 actionTimeStamp = Time.time;
             }

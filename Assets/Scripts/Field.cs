@@ -7,11 +7,12 @@ public class Field : MonoBehaviour {
 	void Start () {
         if(Savegame.savegame)
         {
+            int i = -1;
             foreach (PlantData pd in Savegame.savegameData.plants)
             {
-                GameObject go = Resources.Load<GameObject>("Prefabs/" + pd.type.ToString());
+                GameObject go = Resources.Load<GameObject>("Prefabs/Plants/" + pd.type.ToString());
                 GameObject plantToPlace = GameObject.Instantiate(go);
-                plantToPlace.name = pd.type.ToString() + Time.time;
+                plantToPlace.name = pd.type.ToString() + i--;
                 plantToPlace.transform.parent = transform;
 
                 plantToPlace.transform.position = new Vector3(pd.posX, pd.posY);
