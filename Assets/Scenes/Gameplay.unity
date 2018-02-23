@@ -4379,6 +4379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cf17a22ed04510439d3c0ff36528ac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  size: 0
   inventoryItems:
   - itemImage: {fileID: 350480518}
     item: {fileID: 0}

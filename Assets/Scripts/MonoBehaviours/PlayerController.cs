@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.J))
         {
-            Savegame.Save(plants);
+            Savegame.Save(plants, inventory);
         }
 
         if (Input.GetKeyDown(KeyCode.R))

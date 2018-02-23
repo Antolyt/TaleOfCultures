@@ -12,7 +12,7 @@ public class Savegame : MonoBehaviour
     public static SavegameData savegameData;
 
     //public GameObject plants;
-    //public Inventory inventory;
+    //public GameObject inventory;
 
     void Awake()
     {
@@ -43,17 +43,26 @@ public class Savegame : MonoBehaviour
     }
 
     /// <summary>
-    /// Save Settings
+    /// Save Game
     /// </summary>
-    public static void Save(GameObject plants)
+    public static void Save(GameObject plants, Inventory inventory)
     {
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Create(saveGamePath);
 
         savegameData = new SavegameData();
+
+        // Save Plants
         foreach(Plant plant in plants.GetComponentsInChildren<Plant>())
         {
             savegameData.plants.Add(plant.PlantToData());
+        }
+
+        // Save Inventory
+        savegameData.inventorySize = inventory.size;
+        for(int i = 0; i < inventory.size; i++)
+        {
+            savegameData.inventoryItems.Add(inventory.inventoryItems[i].ToData());
         }
 
         bf.Serialize(file, savegameData);
@@ -63,7 +72,7 @@ public class Savegame : MonoBehaviour
     }
 
     /// <summary>
-    /// Load Settings
+    /// Load Game
     /// </summary>
     public static void Load()
     {
@@ -88,12 +97,17 @@ public class SavegameData
 {
     public List<PlantData> plants;
 
-    //Inventory
-    public ItemData[,] itemData;
+    // Inventory & Items
+    public int inventorySize;
+    public List<ItemData> inventoryItems;
+
+    //public ChestData[] chests;
+
+    // NPC
 
     public SavegameData()
     {
         plants = new List<PlantData>();
-        itemData = new ItemData[2,5];
+        inventoryItems = new List<ItemData>();
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Field : MonoBehaviour {
 
 	void Start () {
-        if(Savegame.savegame)
+        if (Savegame.savegame && Savegame.savegameData != null)
         {
             int i = -1;
             foreach (PlantData pd in Savegame.savegameData.plants)

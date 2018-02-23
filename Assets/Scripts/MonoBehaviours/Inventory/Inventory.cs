@@ -6,7 +6,46 @@ using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour {
 
+    public int size;
     public InventoryItem[] inventoryItems;
+
+    void Start()
+    {
+        size = inventoryItems.Length;
+
+        if (Savegame.savegame && Savegame.savegameData != null)
+        {
+            //for (int i = 0; i < Savegame.savegameData.inventoryItems.Length; i++)
+            //{
+            //    ItemData id = Savegame.savegameData.inventoryItems[i];
+            //    if (id != null)
+            //    {
+            //        Item item = Resources.t<Fruit>("Prefabs/Fruits/" + id.name);
+
+            //        inventoryItems[i].item = item;
+            //        inventoryItems[i].itemImage.sprite = item.sprite;
+            //        inventoryItems[i].itemCount.text = id.count.ToString();
+            //        inventoryItems[i].itemImage.enabled = true;
+            //    }
+
+            //}
+
+            int i = 0;
+            foreach (ItemData id in Savegame.savegameData.inventoryItems)
+            {
+                if (id != null)
+                {
+                    Item item = Resources.Load<Fruit>("Prefabs/Fruits/" + id.name);
+
+                    inventoryItems[i].item = item;
+                    inventoryItems[i].itemImage.sprite = item.sprite;
+                    inventoryItems[i].itemCount.text = id.count.ToString();
+                    inventoryItems[i].itemImage.enabled = true;
+                }
+                i++;
+            }
+        }
+    }
 
     public void AddItem(Item itemToAdd)
     {
@@ -62,10 +101,12 @@ public class InventoryItem
     public Image itemImage;
     public Item item;
     public Text itemCount;
-}
 
-[Serializable]
-public class InventoryData
-{
-    public ItemData[,] itemData;
+    public ItemData ToData()
+    {
+        if (item)
+            return new ItemData(item.name, Int32.Parse(itemCount.text));
+        else
+            return null;
+    }
 }
