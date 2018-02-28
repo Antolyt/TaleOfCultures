@@ -6,33 +6,30 @@ using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour {
 
-    public int size;
+    public int availableSize;
     public InventoryItem[] inventoryItems;
+
+    public bool itemSelected;
+    public int selectedItem;
+    //public InventoryItem selectedItem;
 
     void Start()
     {
-        size = inventoryItems.Length;
+        for (int i = availableSize; i < inventoryItems.Length; i++)
+        {
+            Image ima = inventoryItems[i].itemImage;
+            Transform itemSlot = ima.transform.parent;
+
+            Button button = itemSlot.GetComponent<Button>();
+            button.interactable = false;
+            //inventoryItems[i].itemImage.transform.parent.gameObject.GetComponent<Button>().interactable = false;
+        }
 
         if (Savegame.savegame && Savegame.savegameData != null)
         {
-            //for (int i = 0; i < Savegame.savegameData.inventoryItems.Length; i++)
-            //{
-            //    ItemData id = Savegame.savegameData.inventoryItems[i];
-            //    if (id != null)
-            //    {
-            //        Item item = Resources.t<Fruit>("Prefabs/Fruits/" + id.name);
-
-            //        inventoryItems[i].item = item;
-            //        inventoryItems[i].itemImage.sprite = item.sprite;
-            //        inventoryItems[i].itemCount.text = id.count.ToString();
-            //        inventoryItems[i].itemImage.enabled = true;
-            //    }
-
-            //}
-
-            int i = 0;
-            foreach (ItemData id in Savegame.savegameData.inventoryItems)
+            for (int i = 0; i < Savegame.savegameData.inventoryItems.Length; i++)
             {
+                ItemData id = Savegame.savegameData.inventoryItems[i];
                 if (id != null)
                 {
                     Item item = Resources.Load<Fruit>("Prefabs/Fruits/" + id.name);
@@ -42,16 +39,31 @@ public class Inventory : MonoBehaviour {
                     inventoryItems[i].itemCount.text = id.count.ToString();
                     inventoryItems[i].itemImage.enabled = true;
                 }
-                i++;
+
             }
+
+            //int i = 0;
+            //foreach (ItemData id in Savegame.savegameData.inventoryItems)
+            //{
+            //    if (id != null)
+            //    {
+            //        Item item = Resources.Load<Fruit>("Prefabs/Fruits/" + id.name);
+
+            //        inventoryItems[i].item = item;
+            //        inventoryItems[i].itemImage.sprite = item.sprite;
+            //        inventoryItems[i].itemCount.text = id.count.ToString();
+            //        inventoryItems[i].itemImage.enabled = true;
+            //    }
+            //    i++;
+            //}
         }
     }
 
-    public void AddItem(Item itemToAdd)
+    public void AddItem(Item item)
     {
         for (int i = 0; i < inventoryItems.Length; i++)
         {
-            if (inventoryItems[i].item == itemToAdd)
+            if (inventoryItems[i].item == item)
             {
                 inventoryItems[i].itemCount.text = (Int32.Parse(inventoryItems[i].itemCount.text) + 1).ToString();
                 return;
@@ -62,8 +74,8 @@ public class Inventory : MonoBehaviour {
         {
             if (inventoryItems[i].item == null)
             {
-                inventoryItems[i].item = itemToAdd;
-                inventoryItems[i].itemImage.sprite = itemToAdd.sprite;
+                inventoryItems[i].item = item;
+                inventoryItems[i].itemImage.sprite = item.sprite;
                 inventoryItems[i].itemCount.text = "1";
                 inventoryItems[i].itemImage.enabled = true;
                 return;
@@ -71,11 +83,11 @@ public class Inventory : MonoBehaviour {
         }
     }
 
-    public void RemoveItem(Item itemToRemove)
+    public void RemoveItem(Item item)
     {
         for (int i = 0; i < inventoryItems.Length; i++)
         {
-            if (inventoryItems[i].item == itemToRemove)
+            if (inventoryItems[i].item == item)
             {
                 if (inventoryItems[i].itemCount.text == "1")
                 {
@@ -92,6 +104,12 @@ public class Inventory : MonoBehaviour {
                 return;
             }
         }
+    }
+
+    public void SetSelectedItem(int i)
+    {
+        selectedItem = i;
+        itemSelected = true;
     }
 }
 

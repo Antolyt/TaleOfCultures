@@ -45,7 +45,7 @@ public class Savegame : MonoBehaviour
     /// <summary>
     /// Save Game
     /// </summary>
-    public static void Save(GameObject plants, Inventory inventory)
+    public static void Save(GameObject plants, Inventory inventory, QuickSlots quickSlots)
     {
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Create(saveGamePath);
@@ -59,10 +59,16 @@ public class Savegame : MonoBehaviour
         }
 
         // Save Inventory
-        savegameData.inventorySize = inventory.size;
-        for(int i = 0; i < inventory.size; i++)
+        savegameData.inventorySize = inventory.availableSize;
+        for(int i = 0; i < inventory.availableSize; i++)
         {
-            savegameData.inventoryItems.Add(inventory.inventoryItems[i].ToData());
+            savegameData.inventoryItems[i] = inventory.inventoryItems[i].ToData();
+            //savegameData.inventoryItems.Add(inventory.inventoryItems[i].ToData());
+        }
+
+        for(int i = 0; i < quickSlots.quickSlotItems.Length; i++)
+        {
+            savegameData.quickSlotItems[i] = quickSlots.quickSlotItems[i].ToData();
         }
 
         bf.Serialize(file, savegameData);
@@ -99,7 +105,8 @@ public class SavegameData
 
     // Inventory & Items
     public int inventorySize;
-    public List<ItemData> inventoryItems;
+    public ItemData[] inventoryItems;
+    public ItemData[] quickSlotItems;
 
     //public ChestData[] chests;
 
@@ -108,6 +115,7 @@ public class SavegameData
     public SavegameData()
     {
         plants = new List<PlantData>();
-        inventoryItems = new List<ItemData>();
+        inventoryItems = new ItemData[20];
+        quickSlotItems = new ItemData[4];
     }
 }

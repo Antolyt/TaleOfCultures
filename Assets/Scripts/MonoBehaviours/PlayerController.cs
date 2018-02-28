@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
 
     Vector3 viewingDirection;
     public Inventory inventory;
+    public QuickSlots quickSlots;
     public GameObject itemInHand;
 
     // Use this for initialization
@@ -35,9 +36,10 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.J))
         {
-            Savegame.Save(plants, inventory);
+            Savegame.Save(plants, inventory, quickSlots);
         }
 
+        // use item in Hand
         if (Input.GetKeyDown(KeyCode.R))
         {
             if (!targeter.target && targeter.IsInField())
@@ -54,6 +56,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        // remove fruit in target
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (targeter.target)
@@ -64,6 +67,32 @@ public class PlayerController : MonoBehaviour
                 actionTimeStamp = Time.time;
             }
         }
+
+        #region QuickSlot
+        if (inventory.itemSelected)
+        {
+            if (Input.GetButtonDown("QuickSlotUp"))
+            {
+                quickSlots.SetItem(inventory, 0);
+                inventory.itemSelected = false;
+            }
+            if (Input.GetButtonDown("QuickSlotRight"))
+            {
+                quickSlots.SetItem(inventory, 1);
+                inventory.itemSelected = false;
+            }
+            if (Input.GetButtonDown("QuickSlotDown"))
+            {
+                quickSlots.SetItem(inventory, 2);
+                inventory.itemSelected = false;
+            }
+            if (Input.GetButtonDown("QuickSlotLeft"))
+            {
+                quickSlots.SetItem(inventory, 3);
+                inventory.itemSelected = false;
+            }
+        }
+        #endregion
 
         if (!moveInGrid)
         {
