@@ -69,6 +69,7 @@ public class Savegame : MonoBehaviour
         for(int i = 0; i < quickSlots.quickSlotItems.Length; i++)
         {
             savegameData.quickSlotItems[i] = quickSlots.quickSlotItems[i].ToData();
+            savegameData.inventoryQuickSlotRef[i] = quickSlots.inventoryReference[i];
         }
 
         bf.Serialize(file, savegameData);
@@ -107,6 +108,7 @@ public class SavegameData
     public int inventorySize;
     public ItemData[] inventoryItems;
     public ItemData[] quickSlotItems;
+    public int[] inventoryQuickSlotRef;
 
     //public ChestData[] chests;
 
@@ -117,5 +119,6 @@ public class SavegameData
         plants = new List<PlantData>();
         inventoryItems = new ItemData[20];
         quickSlotItems = new ItemData[4];
+        inventoryQuickSlotRef = new int[4];
     }
 }

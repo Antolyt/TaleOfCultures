@@ -76,7 +76,7 @@ public class Inventory : MonoBehaviour {
             {
                 inventoryItems[i].item = item;
                 inventoryItems[i].itemImage.sprite = item.sprite;
-                inventoryItems[i].itemCount.text = "1";
+                inventoryItems[i].itemCount.text = "2";
                 inventoryItems[i].itemImage.enabled = true;
                 return;
             }
@@ -89,11 +89,14 @@ public class Inventory : MonoBehaviour {
         {
             if (inventoryItems[i].item == item)
             {
-                if (inventoryItems[i].itemCount.text == "1")
+                if (inventoryItems[i].itemCount.text == "")
                 {
                     inventoryItems[i].item = null;
                     inventoryItems[i].itemImage.sprite = null;
                     inventoryItems[i].itemImage.enabled = false;
+                }
+                else if (inventoryItems[i].itemCount.text == "2")
+                {
                     inventoryItems[i].itemCount.text = "";
                 }
                 else
@@ -103,6 +106,29 @@ public class Inventory : MonoBehaviour {
 
                 return;
             }
+        }
+    }
+
+    public void RemoveItem(int i)
+    {
+        if (inventoryItems[i] != null && inventoryItems[i].item != null)
+        {
+            if (inventoryItems[i].itemCount.text == "")
+            {
+                inventoryItems[i].item = null;
+                inventoryItems[i].itemImage.sprite = null;
+                inventoryItems[i].itemImage.enabled = false;
+            }
+            else if (inventoryItems[i].itemCount.text == "2")
+            {
+                inventoryItems[i].itemCount.text = "";
+            }
+            else
+            {
+                inventoryItems[i].itemCount.text = (Int32.Parse(inventoryItems[i].itemCount.text) - 1).ToString();
+            }
+
+            return;
         }
     }
 

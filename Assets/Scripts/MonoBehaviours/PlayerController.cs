@@ -44,15 +44,23 @@ public class PlayerController : MonoBehaviour
         {
             if (!targeter.target && targeter.IsInField())
             {
-                GameObject plantToPlace = GameObject.Instantiate(itemInHand);
-                plantToPlace.name = itemInHand.name + Time.time;
-                plantToPlace.transform.parent = plants.transform;
+                InventoryItem inventoryItem = quickSlots.GetSelectedItem();
+                if (inventoryItem != null)
+                {
+                    string itemName = inventoryItem.item.name;
+                    GameObject plantToPlace = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Plants/" + itemName));
+                    //GameObject plantToPlace = GameObject.Instantiate(itemInHand);
+                    plantToPlace.name = itemName + Time.time;
+                    plantToPlace.transform.parent = plants.transform;
 
-                plantToPlace.transform.position = targeter.transform.position;
-                plantToPlace.GetComponent<SpriteRenderer>().sortingOrder = -(int)plantToPlace.transform.position.y;
+                    plantToPlace.transform.position = targeter.transform.position;
+                    plantToPlace.GetComponent<SpriteRenderer>().sortingOrder = -(int)plantToPlace.transform.position.y;
 
-                targeter.AddTarget(plantToPlace);
-                actionTimeStamp = Time.time;
+                    quickSlots.RemoveSelectedItem();
+
+                    targeter.AddTarget(plantToPlace);
+                    actionTimeStamp = Time.time;
+                }
             }
         }
 
@@ -73,23 +81,19 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetButtonDown("QuickSlotUp"))
             {
-                quickSlots.SetItem(inventory, 0);
-                inventory.itemSelected = false;
+                quickSlots.SelectQuickSlot(0);
             }
             if (Input.GetButtonDown("QuickSlotRight"))
             {
-                quickSlots.SetItem(inventory, 1);
-                inventory.itemSelected = false;
+                quickSlots.SelectQuickSlot(1);
             }
             if (Input.GetButtonDown("QuickSlotDown"))
             {
-                quickSlots.SetItem(inventory, 2);
-                inventory.itemSelected = false;
+                quickSlots.SelectQuickSlot(2);
             }
             if (Input.GetButtonDown("QuickSlotLeft"))
             {
-                quickSlots.SetItem(inventory, 3);
-                inventory.itemSelected = false;
+                quickSlots.SelectQuickSlot(3);
             }
         }
         #endregion

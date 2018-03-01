@@ -2485,6 +2485,8 @@ MonoBehaviour:
     item: {fileID: 0}
     itemCount: {fileID: 1396313912}
   inventoryReference: 
+  selectedQuickSlot: 0
+  inventory: {fileID: 1848463530}
 --- !u!224 &994757071 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224635683799730106, guid: 62977b70138105d4fbbea52add79c5a0,
@@ -4089,6 +4091,7 @@ GameObject:
   - component: {fileID: 1647515190}
   - component: {fileID: 1647515192}
   - component: {fileID: 1647515191}
+  - component: {fileID: 1647515193}
   m_Layer: 5
   m_Name: BlendScreen
   m_TagString: Untagged
@@ -4148,6 +4151,19 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1647515189}
+--- !u!114 &1647515193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1647515189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aae0fe885efaa64cba52397b6d113bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  quickSlots: {fileID: 987623150}
+  inventory: {fileID: 1848463530}
 --- !u!1001 &1656247792
 Prefab:
   m_ObjectHideFlags: 0
