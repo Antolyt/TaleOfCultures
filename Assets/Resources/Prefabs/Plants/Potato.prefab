@@ -81,7 +81,10 @@ MonoBehaviour:
   type: 0
   age: 0
   sR: {fileID: 212911260645844780}
-  fruitsCount: 0
+  yield: 0
+  yieldState: 4
+  yieldPerDay: 1
+  maxYield: 5
   value: 0
   plantStates:
   - sprite: {fileID: 21300136, guid: 87501c915365f32488c490f5141f2519, type: 3}

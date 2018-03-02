@@ -7035,6 +7035,7 @@ MonoBehaviour:
   - itemImage: {fileID: 1476488070}
     item: {fileID: 0}
     itemCount: {fileID: 2135985366}
+  blendScreen: {fileID: 1647515189}
   itemSelected: 0
   selectedItem: 0
 --- !u!1001 &1861394690

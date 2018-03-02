@@ -34,13 +34,14 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        // save
         if (Input.GetKeyDown(KeyCode.J))
         {
             Savegame.Save(plants, inventory, quickSlots);
         }
 
-        // use item in Hand
-        if (Input.GetKeyDown(KeyCode.R))
+        // plant an item from quickSLot
+        if (Input.GetButtonDown("UseItem"))
         {
             if (!targeter.target && targeter.IsInField())
             {
@@ -49,7 +50,6 @@ public class PlayerController : MonoBehaviour
                 {
                     string itemName = inventoryItem.item.name;
                     GameObject plantToPlace = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Plants/" + itemName));
-                    //GameObject plantToPlace = GameObject.Instantiate(itemInHand);
                     plantToPlace.name = itemName + Time.time;
                     plantToPlace.transform.parent = plants.transform;
 
@@ -65,18 +65,28 @@ public class PlayerController : MonoBehaviour
         }
 
         // remove fruit in target
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetButtonDown("Submit"))
         {
             if (targeter.target)
             {
-                Item item = targeter.target.GetComponent<Plant>().droppedFruit;
-                inventory.AddItem(item);
-                Destroy(targeter.target);
-                actionTimeStamp = Time.time;
+                Plant targetPlant = targeter.target.GetComponent<Plant>();
+                if(targetPlant.yield > 0)
+                {
+                    Item item = targetPlant.droppedFruit;
+                    inventory.AddItem(item, targetPlant.yield);
+                    Destroy(targeter.target);
+                    actionTimeStamp = Time.time;
+                }
             }
         }
 
+        if (Input.GetButtonDown("Inventory"))
+        {
+            inventory.Open();
+        }
+
         #region QuickSlot
+        // selects a quickSlot
         if (inventory.itemSelected)
         {
             if (Input.GetButtonDown("QuickSlotUp"))
@@ -98,8 +108,10 @@ public class PlayerController : MonoBehaviour
         }
         #endregion
 
+        // handle grid navigation
         if (!moveInGrid)
         {
+            // set animation
             if (Input.GetKey(KeyCode.D))
             {
                 viewingDirection = Vector3.right;
@@ -136,7 +148,8 @@ public class PlayerController : MonoBehaviour
                 animator.SetBool("moveDown", false);
             }
 
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            // switch to grid based movement
+            if (Input.GetButtonDown("GridMovement"))
             {
                 moveInGrid = true;
                 float roundedX = Mathf.Round(transform.position.x);
@@ -151,7 +164,8 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            // go out of grid based movement
+            if (Input.GetButtonDown("GridMovement"))
             {
                 moveInGrid = false;
             }
@@ -163,7 +177,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Time.time - actionWaitingTime > actionTimeStamp)
         {
-
+            // set position update for grid Movement
             if (moveInGrid)
             {
                 if (Time.time - moveGridWaitingTime > moveGridTimeStamp)
@@ -196,13 +210,16 @@ public class PlayerController : MonoBehaviour
                 }
                 transform.position = Vector3.Lerp(transform.position, desiredGridPos, speed * 100 * Time.deltaTime);
             }
+            // set position for non grid movement
             else
             {
                 transform.position = new Vector3(transform.position.x + (Input.GetAxis("Horizontal") * speed), transform.position.y + (Input.GetAxis("Vertical") * speed));
             }
 
+            // set layer of sprite, so that character will be displayed in front or after object depending on y position
             spriteRenderer.sortingOrder = -(int)Mathf.Round(transform.position.y) - 1;
 
+            // set position of targeter
             targeter.transform.position = new Vector3(Mathf.Round(transform.position.x) + viewingDirection.x, Mathf.Round(transform.position.y) + viewingDirection.y);
         }
     }

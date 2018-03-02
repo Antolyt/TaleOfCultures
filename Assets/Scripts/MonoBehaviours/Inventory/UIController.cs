@@ -10,6 +10,7 @@ public class UIController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         #region QuickSlot
+        // if a item is selected in the inventory put it on the pressed quickSlot
         if (inventory.itemSelected)
         {
             if (Input.GetButtonDown("QuickSlotUp"))

@@ -6,7 +6,7 @@ public class PlantData
 {
     public PlantType type;
     public int age;                 // age of the plant
-    public int fruitsCount;         // number of plants, which can be collected
+    public int yield;               // number of plants, which can be collected
     public int value;               // value of plant, if above threshold higher ranked fruit
     public float posX;
     public float posY;
@@ -15,7 +15,7 @@ public class PlantData
     {
         this.type = type;
         this.age = age;
-        this.fruitsCount = fruitsCount;
+        this.yield = fruitsCount;
         this.value = value;
         this.posX = position.x;
         this.posY = position.y;

@@ -11,15 +11,13 @@ public class Savegame : MonoBehaviour
     private static string saveGamePath;        // Requieres set in Awake
     public static SavegameData savegameData;
 
-    //public GameObject plants;
-    //public GameObject inventory;
-
     void Awake()
     {
         saveGamePath = Application.persistentDataPath + "/Savegames/save01.dat";
 
         Debug.Log(saveGamePath);
 
+        // make singleton
         if (savegame == null)
         {
             DontDestroyOnLoad(gameObject);
@@ -35,11 +33,6 @@ public class Savegame : MonoBehaviour
     void Start()
     {
         //LoadGame();
-    }
-
-    void Update()
-    {
-
     }
 
     /// <summary>
@@ -63,9 +56,9 @@ public class Savegame : MonoBehaviour
         for(int i = 0; i < inventory.availableSize; i++)
         {
             savegameData.inventoryItems[i] = inventory.inventoryItems[i].ToData();
-            //savegameData.inventoryItems.Add(inventory.inventoryItems[i].ToData());
         }
 
+        // Save QuickSlots and References to inventory
         for(int i = 0; i < quickSlots.quickSlotItems.Length; i++)
         {
             savegameData.quickSlotItems[i] = quickSlots.quickSlotItems[i].ToData();

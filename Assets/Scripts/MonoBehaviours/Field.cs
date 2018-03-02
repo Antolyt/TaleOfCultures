@@ -5,6 +5,7 @@ using UnityEngine;
 public class Field : MonoBehaviour {
 
 	void Start () {
+        // Set plants on field from saveData
         if (Savegame.savegame && Savegame.savegameData != null)
         {
             int i = -1;

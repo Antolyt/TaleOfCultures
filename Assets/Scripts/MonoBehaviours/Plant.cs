@@ -14,8 +14,13 @@ public class Plant : MonoBehaviour
     public PlantType type;
     public int age;                 // age of the plant
     public SpriteRenderer sR;       // sprite renderer from current gameObject
-    public int fruitsCount;         // number of plants, which can be collected
+    [Header("Yield & Value")]
+    public int yield;               // number of plants, which can be collected
+    [SerializeField] private int yieldState;
+    [SerializeField] private int yieldPerDay;
+    [SerializeField] private int maxYield;
     public int value;               // value of plant, if above threshold higher ranked fruit
+    [Header("Plant States")]
     public PlantState[] plantStates;
     private int currentPlantState;
 
@@ -29,6 +34,9 @@ public class Plant : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Updates age, sprite of plant, and yield
+    /// </summary>
     public void IncreaseAge()
     {
         age++;
@@ -37,17 +45,29 @@ public class Plant : MonoBehaviour
             currentPlantState++;
             sR.sprite = plantStates[currentPlantState].sprite;
         }
+        if(currentPlantState == yieldState)
+        {
+            yield = yield + yieldPerDay > maxYield ? maxYield : yield + yieldPerDay;
+        }
     }
 
+    /// <summary>
+    /// Transform plant to plantData
+    /// </summary>
+    /// <returns>plantData of plant</returns>
     public PlantData PlantToData()
     {
-        return new PlantData(type, age, fruitsCount, value, gameObject.transform.position);
+        return new PlantData(type, age, yield, value, gameObject.transform.position);
     }
 
+    /// <summary>
+    /// Creates plants on basis of plantData
+    /// </summary>
+    /// <param name="plantData">data to use</param>
     public void SetFromPlantData(PlantData plantData)
     {
         this.age = plantData.age;
-        this.fruitsCount = plantData.fruitsCount;
+        this.yield = plantData.yield;
         this.value = plantData.value;
         for(int i = 0; i < plantStates.Length; i++)
         {
