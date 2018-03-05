@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour {
 
+    public QuickSlots quickSlots;
+
     public int availableSize;
     public InventoryItem[] inventoryItems;
     public GameObject blendScreen;
@@ -15,7 +17,7 @@ public class Inventory : MonoBehaviour {
 
     private string[] sorting = { "name", "type" };
 
-    void Start()
+    public void Initilize()
     {
         for (int i = availableSize; i < inventoryItems.Length; i++)
         {
@@ -24,7 +26,6 @@ public class Inventory : MonoBehaviour {
 
             Button button = itemSlot.GetComponent<Button>();
             button.interactable = false;
-            //inventoryItems[i].itemImage.transform.parent.gameObject.GetComponent<Button>().interactable = false;
         }
 
         // Set inventorySlots from savegame
@@ -39,7 +40,7 @@ public class Inventory : MonoBehaviour {
 
                     inventoryItems[i].item = item;
                     inventoryItems[i].itemImage.sprite = item.sprite;
-                    inventoryItems[i].itemCount.text = id.count.ToString();
+                    if(id.count > 1) inventoryItems[i].itemCount.text = id.count.ToString();
                     inventoryItems[i].itemImage.enabled = true;
                 }
             }
@@ -77,7 +78,18 @@ public class Inventory : MonoBehaviour {
         {
             if (inventoryItems[i].item == item)
             {
-                inventoryItems[i].itemCount.text = (Int32.Parse(inventoryItems[i].itemCount.text) + 1).ToString();
+                int newCount = inventoryItems[i].itemCount.text == "" ? 1 + count : int.Parse(inventoryItems[i].itemCount.text) + count;
+                inventoryItems[i].itemCount.text = newCount.ToString();
+
+                // Update number of items in quickSlots if referenced
+                for(int j = 0; j < QuickSlots.SIZE; j++)
+                {
+                    if (quickSlots.inventoryReference[j] == i)
+                    {
+                        quickSlots.UpdateItemCount(j, inventoryItems[i]);
+                    }
+                }
+
                 return;
             }
         }
@@ -89,7 +101,7 @@ public class Inventory : MonoBehaviour {
             {
                 inventoryItems[i].item = item;
                 inventoryItems[i].itemImage.sprite = item.sprite;
-                inventoryItems[i].itemCount.text = count.ToString();
+                if(count > 1) inventoryItems[i].itemCount.text = count.ToString();
                 inventoryItems[i].itemImage.enabled = true;
                 return;
             }

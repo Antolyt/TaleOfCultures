@@ -4,11 +4,17 @@ using UnityEngine;
 
 public class UIController : MonoBehaviour {
 
-    public QuickSlots quickSlots;
     public Inventory inventory;
-	
-	// Update is called once per frame
-	void Update () {
+    public QuickSlots quickSlots;
+
+    private void Start()
+    {
+        inventory.Initilize();
+        quickSlots.Initialize();
+    }
+
+    // Update is called once per frame
+    void Update () {
         #region QuickSlot
         // if a item is selected in the inventory put it on the pressed quickSlot
         if (inventory.itemSelected)

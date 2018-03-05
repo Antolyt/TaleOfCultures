@@ -6,7 +6,8 @@ using UnityEngine;
 public enum PlantType
 {
     Potato,
-    Tomato
+    Tomato,
+    Pepper
 }
 
 public class Plant : MonoBehaviour

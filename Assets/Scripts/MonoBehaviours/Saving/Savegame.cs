@@ -32,6 +32,7 @@ public class Savegame : MonoBehaviour
 
     void Start()
     {
+
         //LoadGame();
     }
 
@@ -59,9 +60,9 @@ public class Savegame : MonoBehaviour
         }
 
         // Save QuickSlots and References to inventory
-        for(int i = 0; i < quickSlots.quickSlotItems.Length; i++)
+        for(int i = 0; i < QuickSlots.SIZE; i++)
         {
-            savegameData.quickSlotItems[i] = quickSlots.quickSlotItems[i].ToData();
+            //savegameData.quickSlotItems[i] = quickSlots.quickSlotItems[i].ToData();
             savegameData.inventoryQuickSlotRef[i] = quickSlots.inventoryReference[i];
         }
 
@@ -111,7 +112,11 @@ public class SavegameData
     {
         plants = new List<PlantData>();
         inventoryItems = new ItemData[20];
-        quickSlotItems = new ItemData[4];
-        inventoryQuickSlotRef = new int[4];
+        //quickSlotItems = new ItemData[QuickSlots.SIZE];
+        inventoryQuickSlotRef = new int[QuickSlots.SIZE];
+        for (int i = 0; i < QuickSlots.SIZE; i++)
+        {
+            inventoryQuickSlotRef[i] = -1;
+        }
     }
 }

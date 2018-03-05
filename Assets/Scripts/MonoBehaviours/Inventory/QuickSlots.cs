@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class QuickSlots : MonoBehaviour {
 
+    public const int SIZE = 4;
+
     public InventoryItem[] quickSlotItems;
     public int[] inventoryReference;
     public int selectedQuickSlot;
@@ -12,26 +14,35 @@ public class QuickSlots : MonoBehaviour {
     public Inventory inventory;
 
     // Use this for initialization
-    void Start()
+    public void Initialize()
     {
-        inventoryReference = new int[4];
+        inventoryReference = new int[SIZE];
+        for(int i = 0; i < SIZE; i++)
+        {
+            inventoryReference[i] = -1;
+        }
 
         // Set QuickSlots from savegame
         if (Savegame.savegame && Savegame.savegameData != null)
         {
-            for (int i = 0; i < Savegame.savegameData.quickSlotItems.Length; i++)
+            for (int i = 0; i < SIZE; i++)
             {
-                ItemData id = Savegame.savegameData.quickSlotItems[i];
-
-                if (id != null)
+                inventoryReference[i] = Savegame.savegameData.inventoryQuickSlotRef[i];
+                if (inventoryReference[i] >= 0)
                 {
-                    Item item = Resources.Load<Fruit>("Prefabs/Fruits/" + id.name);
-
-                    quickSlotItems[i].item = item;
-                    quickSlotItems[i].itemImage.sprite = item.sprite;
-                    quickSlotItems[i].itemCount.text = id.count.ToString();
+                    quickSlotItems[i].item = inventory.inventoryItems[inventoryReference[i]].item;
+                    quickSlotItems[i].itemImage.sprite = inventory.inventoryItems[inventoryReference[i]].itemImage.sprite;
+                    quickSlotItems[i].itemCount.text = inventory.inventoryItems[inventoryReference[i]].itemCount.text;
                     quickSlotItems[i].itemImage.enabled = true;
-                    inventoryReference[i] = Savegame.savegameData.inventoryQuickSlotRef[i];
+
+                    //ItemData id = Savegame.savegameData.inventoryItems[inventoryReference[i]];
+                    //Item item = Resources.Load<Fruit>("Prefabs/Fruits/" + id.name);
+
+                    //quickSlotItems[i].item = item;
+                    //quickSlotItems[i].itemImage.sprite = item.sprite;
+                    //if(id.count > 1) quickSlotItems[i].itemCount.text = id.count.ToString();
+                    //quickSlotItems[i].itemImage.enabled = true;
+                    
                 }
             }
         }
@@ -48,6 +59,11 @@ public class QuickSlots : MonoBehaviour {
         quickSlotItems[i].itemCount.text = inventory.inventoryItems[inventory.selectedItem].itemCount.text;
         quickSlotItems[i].itemImage.enabled = true;
         inventoryReference[i] = inventory.selectedItem;
+    }
+
+    public void UpdateItemCount(int i, InventoryItem ii)
+    {
+        quickSlotItems[i].itemCount.text = ii.itemCount.text;
     }
 
     /// <summary>

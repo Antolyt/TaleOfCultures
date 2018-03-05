@@ -87,24 +87,21 @@ public class PlayerController : MonoBehaviour
 
         #region QuickSlot
         // selects a quickSlot
-        if (inventory.itemSelected)
+        if (Input.GetButtonDown("QuickSlotUp"))
         {
-            if (Input.GetButtonDown("QuickSlotUp"))
-            {
-                quickSlots.SelectQuickSlot(0);
-            }
-            if (Input.GetButtonDown("QuickSlotRight"))
-            {
-                quickSlots.SelectQuickSlot(1);
-            }
-            if (Input.GetButtonDown("QuickSlotDown"))
-            {
-                quickSlots.SelectQuickSlot(2);
-            }
-            if (Input.GetButtonDown("QuickSlotLeft"))
-            {
-                quickSlots.SelectQuickSlot(3);
-            }
+            quickSlots.SelectQuickSlot(0);
+        }
+        if (Input.GetButtonDown("QuickSlotRight"))
+        {
+            quickSlots.SelectQuickSlot(1);
+        }
+        if (Input.GetButtonDown("QuickSlotDown"))
+        {
+            quickSlots.SelectQuickSlot(2);
+        }
+        if (Input.GetButtonDown("QuickSlotLeft"))
+        {
+            quickSlots.SelectQuickSlot(3);
         }
         #endregion
 
