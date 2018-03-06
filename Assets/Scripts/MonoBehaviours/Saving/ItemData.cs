@@ -21,11 +21,3 @@ public class ItemData
         this.count = count;
     }
 }
-
-public class ChestData
-{
-    public string name;
-    public float posX;
-    public float posY;
-    public ItemData[] items;
-}

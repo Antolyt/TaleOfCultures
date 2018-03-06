@@ -7,7 +7,7 @@ public class QuickSlots : MonoBehaviour {
 
     public const int SIZE = 4;
 
-    public InventoryItem[] quickSlotItems;
+    public UIItem[] quickSlotItems;
     public int[] inventoryReference;
     public int selectedQuickSlot;
 
@@ -23,16 +23,16 @@ public class QuickSlots : MonoBehaviour {
         }
 
         // Set QuickSlots from savegame
-        if (Savegame.savegame && Savegame.savegameData != null)
+        if (Savegame.savegameData != null)
         {
             for (int i = 0; i < SIZE; i++)
             {
                 inventoryReference[i] = Savegame.savegameData.inventoryQuickSlotRef[i];
                 if (inventoryReference[i] >= 0)
                 {
-                    quickSlotItems[i].item = inventory.inventoryItems[inventoryReference[i]].item;
-                    quickSlotItems[i].itemImage.sprite = inventory.inventoryItems[inventoryReference[i]].itemImage.sprite;
-                    quickSlotItems[i].itemCount.text = inventory.inventoryItems[inventoryReference[i]].itemCount.text;
+                    quickSlotItems[i].item = inventory.uiItems[inventoryReference[i]].item;
+                    quickSlotItems[i].itemImage.sprite = inventory.uiItems[inventoryReference[i]].itemImage.sprite;
+                    quickSlotItems[i].itemCount.text = inventory.uiItems[inventoryReference[i]].itemCount.text;
                     quickSlotItems[i].itemImage.enabled = true;
 
                     //ItemData id = Savegame.savegameData.inventoryItems[inventoryReference[i]];
@@ -54,16 +54,16 @@ public class QuickSlots : MonoBehaviour {
     /// <param name="i">index of quickSlot</param>
     public void SetItem(int i)
     {
-        quickSlotItems[i].item = inventory.inventoryItems[inventory.selectedItem].item;
-        quickSlotItems[i].itemImage.sprite = inventory.inventoryItems[inventory.selectedItem].itemImage.sprite;
-        quickSlotItems[i].itemCount.text = inventory.inventoryItems[inventory.selectedItem].itemCount.text;
+        quickSlotItems[i].item = inventory.uiItems[inventory.selectedItem].item;
+        quickSlotItems[i].itemImage.sprite = inventory.uiItems[inventory.selectedItem].itemImage.sprite;
+        quickSlotItems[i].itemCount.text = inventory.uiItems[inventory.selectedItem].itemCount.text;
         quickSlotItems[i].itemImage.enabled = true;
         inventoryReference[i] = inventory.selectedItem;
     }
 
-    public void UpdateItemCount(int i, InventoryItem ii)
+    public void UpdateItemCount(int i, UIItem uiItem)
     {
-        quickSlotItems[i].itemCount.text = ii.itemCount.text;
+        quickSlotItems[i].itemCount.text = uiItem.itemCount.text;
     }
 
     /// <summary>
@@ -128,7 +128,7 @@ public class QuickSlots : MonoBehaviour {
     /// Gets the item of selected quickSlot
     /// </summary>
     /// <returns>selected InventoryItem</returns>
-    public InventoryItem GetSelectedItem()
+    public UIItem GetSelectedItem()
     {
         if (quickSlotItems[selectedQuickSlot] == null || quickSlotItems[selectedQuickSlot].item == null)
             return null;

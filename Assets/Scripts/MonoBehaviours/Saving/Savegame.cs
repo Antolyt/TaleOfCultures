@@ -7,7 +7,7 @@ using System.IO;
 
 public class Savegame : MonoBehaviour
 {
-    public static Savegame savegame;
+    private static Savegame savegame;
     private static string saveGamePath;        // Requieres set in Awake
     public static SavegameData savegameData;
 
@@ -56,7 +56,7 @@ public class Savegame : MonoBehaviour
         savegameData.inventorySize = inventory.availableSize;
         for(int i = 0; i < inventory.availableSize; i++)
         {
-            savegameData.inventoryItems[i] = inventory.inventoryItems[i].ToData();
+            savegameData.inventoryItems[i] = inventory.uiItems[i].ToData();
         }
 
         // Save QuickSlots and References to inventory
@@ -104,7 +104,8 @@ public class SavegameData
     public ItemData[] quickSlotItems;
     public int[] inventoryQuickSlotRef;
 
-    //public ChestData[] chests;
+    public int chestIdCounter;
+    public ChestData[] chests;
 
     // NPC
 

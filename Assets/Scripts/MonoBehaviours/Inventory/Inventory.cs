@@ -9,7 +9,7 @@ public class Inventory : MonoBehaviour {
     public QuickSlots quickSlots;
 
     public int availableSize;
-    public InventoryItem[] inventoryItems;
+    public UIItem[] uiItems;
     public GameObject blendScreen;
 
     public bool itemSelected;
@@ -19,9 +19,9 @@ public class Inventory : MonoBehaviour {
 
     public void Initilize()
     {
-        for (int i = availableSize; i < inventoryItems.Length; i++)
+        for (int i = availableSize; i < uiItems.Length; i++)
         {
-            Image ima = inventoryItems[i].itemImage;
+            Image ima = uiItems[i].itemImage;
             Transform itemSlot = ima.transform.parent;
 
             Button button = itemSlot.GetComponent<Button>();
@@ -29,7 +29,7 @@ public class Inventory : MonoBehaviour {
         }
 
         // Set inventorySlots from savegame
-        if (Savegame.savegame && Savegame.savegameData != null)
+        if (Savegame.savegameData != null)
         {
             for (int i = 0; i < Savegame.savegameData.inventoryItems.Length; i++)
             {
@@ -38,10 +38,10 @@ public class Inventory : MonoBehaviour {
                 {
                     Item item = Resources.Load<Fruit>("Prefabs/Fruits/" + id.name);
 
-                    inventoryItems[i].item = item;
-                    inventoryItems[i].itemImage.sprite = item.sprite;
-                    if(id.count > 1) inventoryItems[i].itemCount.text = id.count.ToString();
-                    inventoryItems[i].itemImage.enabled = true;
+                    uiItems[i].item = item;
+                    uiItems[i].itemImage.sprite = item.sprite;
+                    if(id.count > 1) uiItems[i].itemCount.text = id.count.ToString();
+                    uiItems[i].itemImage.enabled = true;
                 }
             }
         }
@@ -74,19 +74,19 @@ public class Inventory : MonoBehaviour {
     public void AddItem(Item item, int count)
     {
         // check if item exist and increase number
-        for (int i = 0; i < inventoryItems.Length; i++)
+        for (int i = 0; i < uiItems.Length; i++)
         {
-            if (inventoryItems[i].item == item)
+            if (uiItems[i].item == item)
             {
-                int newCount = inventoryItems[i].itemCount.text == "" ? 1 + count : int.Parse(inventoryItems[i].itemCount.text) + count;
-                inventoryItems[i].itemCount.text = newCount.ToString();
+                int newCount = uiItems[i].itemCount.text == "" ? 1 + count : int.Parse(uiItems[i].itemCount.text) + count;
+                uiItems[i].itemCount.text = newCount.ToString();
 
                 // Update number of items in quickSlots if referenced
                 for(int j = 0; j < QuickSlots.SIZE; j++)
                 {
                     if (quickSlots.inventoryReference[j] == i)
                     {
-                        quickSlots.UpdateItemCount(j, inventoryItems[i]);
+                        quickSlots.UpdateItemCount(j, uiItems[i]);
                     }
                 }
 
@@ -95,14 +95,14 @@ public class Inventory : MonoBehaviour {
         }
 
         // add item to first 
-        for (int i = 0; i < inventoryItems.Length; i++)
+        for (int i = 0; i < uiItems.Length; i++)
         {
-            if (inventoryItems[i].item == null)
+            if (uiItems[i].item == null)
             {
-                inventoryItems[i].item = item;
-                inventoryItems[i].itemImage.sprite = item.sprite;
-                if(count > 1) inventoryItems[i].itemCount.text = count.ToString();
-                inventoryItems[i].itemImage.enabled = true;
+                uiItems[i].item = item;
+                uiItems[i].itemImage.sprite = item.sprite;
+                if(count > 1) uiItems[i].itemCount.text = count.ToString();
+                uiItems[i].itemImage.enabled = true;
                 return;
             }
         }
@@ -114,23 +114,23 @@ public class Inventory : MonoBehaviour {
     /// <param name="item">item to Remove</param>
     public void RemoveItem(Item item)
     {
-        for (int i = 0; i < inventoryItems.Length; i++)
+        for (int i = 0; i < uiItems.Length; i++)
         {
-            if (inventoryItems[i].item == item)
+            if (uiItems[i].item == item)
             {
-                if (inventoryItems[i].itemCount.text == "")
+                if (uiItems[i].itemCount.text == "")
                 {
-                    inventoryItems[i].item = null;
-                    inventoryItems[i].itemImage.sprite = null;
-                    inventoryItems[i].itemImage.enabled = false;
+                    uiItems[i].item = null;
+                    uiItems[i].itemImage.sprite = null;
+                    uiItems[i].itemImage.enabled = false;
                 }
-                else if (inventoryItems[i].itemCount.text == "2")
+                else if (uiItems[i].itemCount.text == "2")
                 {
-                    inventoryItems[i].itemCount.text = "";
+                    uiItems[i].itemCount.text = "";
                 }
                 else
                 {
-                    inventoryItems[i].itemCount.text = (Int32.Parse(inventoryItems[i].itemCount.text) - 1).ToString();
+                    uiItems[i].itemCount.text = (Int32.Parse(uiItems[i].itemCount.text) - 1).ToString();
                 }
 
                 return;
@@ -144,21 +144,21 @@ public class Inventory : MonoBehaviour {
     /// <param name="i">index of inventorySlot</param>
     public void RemoveItem(int i)
     {
-        if (inventoryItems[i] != null && inventoryItems[i].item != null)
+        if (uiItems[i] != null && uiItems[i].item != null)
         {
-            if (inventoryItems[i].itemCount.text == "")
+            if (uiItems[i].itemCount.text == "")
             {
-                inventoryItems[i].item = null;
-                inventoryItems[i].itemImage.sprite = null;
-                inventoryItems[i].itemImage.enabled = false;
+                uiItems[i].item = null;
+                uiItems[i].itemImage.sprite = null;
+                uiItems[i].itemImage.enabled = false;
             }
-            else if (inventoryItems[i].itemCount.text == "2")
+            else if (uiItems[i].itemCount.text == "2")
             {
-                inventoryItems[i].itemCount.text = "";
+                uiItems[i].itemCount.text = "";
             }
             else
             {
-                inventoryItems[i].itemCount.text = (Int32.Parse(inventoryItems[i].itemCount.text) - 1).ToString();
+                uiItems[i].itemCount.text = (Int32.Parse(uiItems[i].itemCount.text) - 1).ToString();
             }
 
             return;
@@ -206,7 +206,7 @@ public class Inventory : MonoBehaviour {
 /// Contains information of inventorySlot
 /// </summary>
 [Serializable]
-public class InventoryItem
+public class UIItem
 {
     public Image itemImage;
     public Item item;

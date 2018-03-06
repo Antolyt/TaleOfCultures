@@ -45,10 +45,10 @@ public class PlayerController : MonoBehaviour
         {
             if (!targeter.target && targeter.IsInField())
             {
-                InventoryItem inventoryItem = quickSlots.GetSelectedItem();
-                if (inventoryItem != null)
+                UIItem uiItem = quickSlots.GetSelectedItem();
+                if (uiItem != null)
                 {
-                    string itemName = inventoryItem.item.name;
+                    string itemName = uiItem.item.name;
                     GameObject plantToPlace = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Plants/" + itemName));
                     plantToPlace.name = itemName + Time.time;
                     plantToPlace.transform.parent = plants.transform;
@@ -69,13 +69,21 @@ public class PlayerController : MonoBehaviour
         {
             if (targeter.target)
             {
-                Plant targetPlant = targeter.target.GetComponent<Plant>();
-                if(targetPlant.yield > 0)
+                if (targeter.target.name == "Chest")
                 {
-                    Item item = targetPlant.droppedFruit;
-                    inventory.AddItem(item, targetPlant.yield);
-                    Destroy(targeter.target);
-                    actionTimeStamp = Time.time;
+                    Chest chest = targeter.target.GetComponent<Chest>();
+                    chest.Open();
+                }
+                else
+                {
+                    Plant targetPlant = targeter.target.GetComponent<Plant>();
+                    if (targetPlant.yield > 0)
+                    {
+                        Item item = targetPlant.droppedFruit;
+                        inventory.AddItem(item, targetPlant.yield);
+                        Destroy(targeter.target);
+                        actionTimeStamp = Time.time;
+                    }
                 }
             }
         }
