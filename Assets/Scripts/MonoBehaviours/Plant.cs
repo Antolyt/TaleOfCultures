@@ -1,37 +1,72 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public enum PlantType
 {
-    Potato,
-    Tomato,
-    Pepper
+    Bush,
+    Flower,
+    Leave,
+    Root,
+    Tree
 }
 
 public class Plant : MonoBehaviour
 {
+    public PlantData data;
+
     public PlantType type;
-    public int age;                 // age of the plant
-    public SpriteRenderer sR;       // sprite renderer from current gameObject
-    [Header("Yield & Value")]
-    public int yield;               // number of plants, which can be collected
-    [SerializeField] private int yieldState;
+    private delegate KeyValuePair<int, Item> Harvest();
+    private Harvest harvest;
+
+    public SpriteRenderer spriteRenderer;       // sprite renderer from current gameObject
+    [SerializeField] private int yieldStartState;
+    [SerializeField] private int yieldEndState;
     [SerializeField] private int yieldPerDay;
     [SerializeField] private int maxYield;
     public int value;               // value of plant, if above threshold higher ranked fruit
     [Header("Plant States")]
     public PlantState[] plantStates;
+    //public PlantState seed;
+    //public PlantState germ;
+    //public PlantState small;
+    //public PlantState big;
+    //public PlantState flower;
+    //public PlantState smallFruit;
+    //public PlantState fruit;
+    //public PlantState dead;
+    //public PlantState removed;
+    //public PlantState winter;
     private int currentPlantState;
 
     public Fruit droppedFruit;
+    public Seed droppedSeed;
 
     private void Start()
     {
-        if(plantStates.Length > 0)
+        data.posX = (int)Math.Round(transform.position.x);
+        data.posY = (int)Math.Round(transform.position.y);
+
+        spriteRenderer.sortingOrder = -(int)data.posY;
+        SetPlantState();
+
+        switch (type)
         {
-            sR.sprite = plantStates[currentPlantState].sprite;
+            case PlantType.Bush:
+                harvest = HarvestBush;
+                break;
+            case PlantType.Leave:
+                harvest = HarvestLeave;
+                break;
+            case PlantType.Root:
+                harvest = HarvestRoot;
+                break;
+            case PlantType.Tree:
+                harvest = HarvestTree;
+                break;
+            default:
+                break;
         }
     }
 
@@ -40,49 +75,137 @@ public class Plant : MonoBehaviour
     /// </summary>
     public void IncreaseAge()
     {
-        age++;
-        if(currentPlantState < plantStates.Length - 1 && age >= plantStates[currentPlantState+1].requiredAge)
+        data.age++;
+        if(currentPlantState < plantStates.Length - 1 && data.age >= plantStates[currentPlantState+1].requiredAge)
         {
             currentPlantState++;
-            sR.sprite = plantStates[currentPlantState].sprite;
+            spriteRenderer.sprite = plantStates[currentPlantState].sprite;
         }
-        if(currentPlantState == yieldState)
+        if(currentPlantState >= yieldStartState && currentPlantState <= yieldEndState)
         {
-            yield = yield + yieldPerDay > maxYield ? maxYield : yield + yieldPerDay;
+            data.yield = data.yield + yieldPerDay > maxYield ? maxYield : data.yield + yieldPerDay;
         }
     }
 
-    /// <summary>
-    /// Transform plant to plantData
-    /// </summary>
-    /// <returns>plantData of plant</returns>
-    public PlantData PlantToData()
+    public static GameObject CreateObject(PlantData data)
     {
-        return new PlantData(type, age, yield, value, gameObject.transform.position);
+        GameObject go = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/Plants/" + data.name));
+        Plant plant = go.GetComponent<Plant>();
+        plant.data = data;
+        go.transform.position = data.Position();
+        plant.spriteRenderer.sortingOrder = -(int)data.posY;
+        plant.SetPlantState();
+
+        return go;
     }
 
-    /// <summary>
-    /// Creates plants on basis of plantData
-    /// </summary>
-    /// <param name="plantData">data to use</param>
-    public void SetFromPlantData(PlantData plantData)
+    public void SetPlantState()
     {
-        this.age = plantData.age;
-        this.yield = plantData.yield;
-        this.value = plantData.value;
-        for(int i = 0; i < plantStates.Length; i++)
+        for (int i = 0; i < plantStates.Length; i++)
         {
-            if(age >= plantStates[i].requiredAge)
+            if (data.age >= plantStates[i].requiredAge)
             {
                 continue;
             }
             else
             {
                 currentPlantState = Mathf.Max(0, i - 1);
-                sR.sprite = plantStates[currentPlantState].sprite;
+                spriteRenderer.sprite = plantStates[currentPlantState].sprite;
                 break;
             }
         }
+    }
+
+    public KeyValuePair<int, Item> HarvestBush()
+    {
+        KeyValuePair<int, Item> res = new KeyValuePair<int, Item>(data.yield, droppedFruit);
+        if (data.yield >= 1)
+        {
+            SwitchState(5);
+            data.yield = 0;
+        }
+
+        return res;
+    }
+
+    public KeyValuePair<int, Item> HarvestLeave()
+    {
+        KeyValuePair<int, Item> res = new KeyValuePair<int, Item>(data.yield, droppedFruit);
+
+        // Return seeds if in fruit state
+        if (currentPlantState == 5 || currentPlantState == 6) // small fruit/fruit state
+        {
+            SwitchState(8);
+            res = new KeyValuePair<int, Item>(5, droppedSeed);
+        }
+        // Return fruit if in big/flower state
+        else if (data.yield >= 1)
+        {
+            SwitchState(8);
+        }
+        return res;
+    }
+
+    public KeyValuePair<int, Item> HarvestRoot()
+    {
+        KeyValuePair<int, Item> res = new KeyValuePair<int, Item>(data.yield, droppedFruit);
+
+        // Return seeds if in fruit state
+        if (currentPlantState == 5 || currentPlantState == 6) // small fruit/fruit state
+        {
+            SwitchState(8);
+            res = new KeyValuePair<int, Item>(5, droppedSeed);
+        }
+        // Return fruit if in big/flower state
+        else if (data.yield >= 1)
+        {
+            SwitchState(8);
+        }
+        return res;
+    }
+
+    public KeyValuePair<int, Item> HarvestTree()
+    {
+        KeyValuePair<int, Item> res = new KeyValuePair<int, Item>(data.yield, droppedFruit);
+
+        // Return seeds if in fruit state
+        if (currentPlantState == 5 || currentPlantState == 6) // small fruit/fruit state
+        {
+            SwitchState(8);
+            res = new KeyValuePair<int, Item>(5, droppedSeed);
+        }
+        // Return fruit if in big/flower state
+        else if (data.yield >= 1)
+        {
+            SwitchState(8);
+        }
+        return res;
+    }
+
+    public void SwitchState(int state)
+    {
+        currentPlantState = state;
+        spriteRenderer.sprite = plantStates[state].sprite;
+    }
+}
+
+[Serializable]
+public class PlantData : ObjectData
+{
+    public int age;                 // age of the plant
+    public int yield;               // number of plants, which can be collected
+    public int value;               // value of plant, if above threshold higher ranked fruit
+
+    public PlantData(string name, Vector3 position) : base(name, position)
+    {
+
+    }
+
+    public PlantData(string name, Vector3 position, int age, int yield, int value) : base(name, position)
+    {
+        this.age = age;
+        this.yield = yield;
+        this.value = value;
     }
 }
 

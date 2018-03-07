@@ -78,11 +78,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de7a7e84f468a554f979bebd3622f4a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 2
-  age: 0
-  sR: {fileID: 212222686615159442}
-  yield: 0
-  yieldState: 4
+  data:
+    name: Pepper
+    posX: 0
+    posY: 0
+    age: 0
+    yield: 0
+    value: 0
+  type: 0
+  spriteRenderer: {fileID: 212222686615159442}
+  yieldStartState: 0
+  yieldEndState: 0
   yieldPerDay: 2
   maxYield: 6
   value: 0
@@ -102,6 +108,7 @@ MonoBehaviour:
   - sprite: {fileID: 21302016, guid: 87501c915365f32488c490f5141f2519, type: 3}
     requiredAge: 26
   droppedFruit: {fileID: 11400000, guid: 0dc6415ecf4888d4992534a8060ddbe7, type: 2}
+  droppedSeed: {fileID: 0}
 --- !u!212 &212222686615159442
 SpriteRenderer:
   m_ObjectHideFlags: 1

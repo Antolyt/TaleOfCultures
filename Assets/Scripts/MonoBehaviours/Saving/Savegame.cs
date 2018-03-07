@@ -49,7 +49,7 @@ public class Savegame : MonoBehaviour
         // Save Plants
         foreach(Plant plant in plants.GetComponentsInChildren<Plant>())
         {
-            savegameData.plants.Add(plant.PlantToData());
+            savegameData.plants.Add(plant.data);
         }
 
         // Save Inventory
@@ -62,7 +62,6 @@ public class Savegame : MonoBehaviour
         // Save QuickSlots and References to inventory
         for(int i = 0; i < QuickSlots.SIZE; i++)
         {
-            //savegameData.quickSlotItems[i] = quickSlots.quickSlotItems[i].ToData();
             savegameData.inventoryQuickSlotRef[i] = quickSlots.inventoryReference[i];
         }
 
@@ -101,7 +100,6 @@ public class SavegameData
     // Inventory & Items
     public int inventorySize;
     public ItemData[] inventoryItems;
-    public ItemData[] quickSlotItems;
     public int[] inventoryQuickSlotRef;
 
     public int chestIdCounter;
@@ -113,7 +111,6 @@ public class SavegameData
     {
         plants = new List<PlantData>();
         inventoryItems = new ItemData[20];
-        //quickSlotItems = new ItemData[QuickSlots.SIZE];
         inventoryQuickSlotRef = new int[QuickSlots.SIZE];
         for (int i = 0; i < QuickSlots.SIZE; i++)
         {

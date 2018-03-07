@@ -14,6 +14,11 @@ public class Fruit : Item
     ItemRanking fruitRanking;
 }
 
+public class Seed : Item
+{
+
+}
+
 [CreateAssetMenu(fileName = "ItemRanking", menuName = "Item/Ranking", order = 1)]
 public class ItemRanking : ScriptableObject
 {

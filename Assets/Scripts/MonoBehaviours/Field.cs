@@ -8,18 +8,10 @@ public class Field : MonoBehaviour {
         // Set plants on field from saveData
         if (Savegame.savegameData != null)
         {
-            int i = -1;
             foreach (PlantData pd in Savegame.savegameData.plants)
             {
-                GameObject go = Resources.Load<GameObject>("Prefabs/Plants/" + pd.type.ToString());
-                GameObject plantToPlace = GameObject.Instantiate(go);
-                plantToPlace.name = pd.type.ToString() + i--;
-                plantToPlace.transform.parent = transform;
-
-                plantToPlace.transform.position = new Vector3(pd.posX, pd.posY);
-                plantToPlace.GetComponent<SpriteRenderer>().sortingOrder = -(int)plantToPlace.transform.position.y;
-
-                plantToPlace.GetComponent<Plant>().SetFromPlantData(pd);
+                GameObject plant = Plant.CreateObject(pd);
+                plant.transform.parent = transform;
             }
         }
 	}

@@ -15,7 +15,7 @@ public class Inventory : MonoBehaviour {
     public bool itemSelected;
     public int selectedItem;
 
-    private string[] sorting = { "name", "type" };
+    //private string[] sorting = { "name", "type" };
 
     public void Initilize()
     {

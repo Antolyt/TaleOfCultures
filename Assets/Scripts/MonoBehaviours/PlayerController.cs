@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     public SpriteRenderer spriteRenderer;
     public Targeter targeter;
-    public GameObject plants;
+    public GameObject field;
 
     #region move in grid
     public bool moveInGrid;             // true if player should move in grid
@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
         // save
         if (Input.GetKeyDown(KeyCode.J))
         {
-            Savegame.Save(plants, inventory, quickSlots);
+            Savegame.Save(field, inventory, quickSlots);
         }
 
         // plant an item from quickSLot
@@ -49,16 +49,17 @@ public class PlayerController : MonoBehaviour
                 if (uiItem != null)
                 {
                     string itemName = uiItem.item.name;
-                    GameObject plantToPlace = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Plants/" + itemName));
-                    plantToPlace.name = itemName + Time.time;
-                    plantToPlace.transform.parent = plants.transform;
+                    GameObject plant = Plant.CreateObject(new PlantData(itemName, targeter.transform.position));
+                    //GameObject plantToPlace = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Plants/" + itemName));
+                    //plantToPlace.name = itemName + Time.time;
+                    plant.transform.parent = field.transform;
 
-                    plantToPlace.transform.position = targeter.transform.position;
-                    plantToPlace.GetComponent<SpriteRenderer>().sortingOrder = -(int)plantToPlace.transform.position.y;
+                    //plantToPlace.transform.position = targeter.transform.position;
+                    //plantToPlace.GetComponent<SpriteRenderer>().sortingOrder = -(int)plantToPlace.transform.position.y;
 
                     quickSlots.RemoveSelectedItem();
 
-                    targeter.AddTarget(plantToPlace);
+                    targeter.AddTarget(plant);
                     actionTimeStamp = Time.time;
                 }
             }
@@ -77,10 +78,10 @@ public class PlayerController : MonoBehaviour
                 else
                 {
                     Plant targetPlant = targeter.target.GetComponent<Plant>();
-                    if (targetPlant.yield > 0)
+                    if (targetPlant.data.yield > 0)
                     {
                         Item item = targetPlant.droppedFruit;
-                        inventory.AddItem(item, targetPlant.yield);
+                        inventory.AddItem(item, targetPlant.data.yield);
                         Destroy(targeter.target);
                         actionTimeStamp = Time.time;
                     }

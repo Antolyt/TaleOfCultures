@@ -3,49 +3,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Chest : MonoBehaviour
+public class Chest : ObjectScript
 {
-    public SpriteRenderer sRenderer;
+    public SpriteRenderer spriteRenderer;
     public Sprite closed;
     public Sprite open;
     public ChestData data;
 
-    public void Initialize()
-    {
-        data.id = ++Savegame.savegameData.chestIdCounter;
-        data.x = (int)Math.Round((double)this.transform.position.x);
-        data.y = (int)Math.Round((double)this.transform.position.y);
-        sRenderer.sortingOrder = -data.y;
-    }
-
     public void Open()
     {
-        sRenderer.sprite = open;
+        spriteRenderer.sprite = open;
     }
 
     public void Close()
     {
-        sRenderer.sprite = closed;
+        spriteRenderer.sprite = closed;
+    }
+
+    public static void CreateObject(ChestData data)
+    {
+        GameObject go = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>(data.name));
+        go.transform.position = data.Position();
+        Chest chest = go.GetComponent<Chest>();
+        chest.data = data;
     }
 }
 
 [Serializable]
-public class ChestData
+public class ChestData : ObjectData
 {
-    public int id;
-
-    // position
-    public int x;
-    public int y;
-
     public ItemData[] items;
 
-    public ChestData(int id, int x, int y, int size)
-    {
-        this.id = id;
-        this.x = x;
-        this.y = y;
-
+    public ChestData(string name, Vector3 position, int size) : base(name, position)
+    {       
         items = new ItemData[size];
     }
 }

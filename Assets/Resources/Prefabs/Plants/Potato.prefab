@@ -78,11 +78,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de7a7e84f468a554f979bebd3622f4a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data:
+    name: Potato
+    posX: 0
+    posY: 0
+    age: 0
+    yield: 0
+    value: 0
   type: 0
-  age: 0
-  sR: {fileID: 212911260645844780}
-  yield: 0
-  yieldState: 4
+  spriteRenderer: {fileID: 212911260645844780}
+  yieldStartState: 0
+  yieldEndState: 0
   yieldPerDay: 1
   maxYield: 5
   value: 0
@@ -100,6 +106,7 @@ MonoBehaviour:
   - sprite: {fileID: 21301888, guid: 87501c915365f32488c490f5141f2519, type: 3}
     requiredAge: 50
   droppedFruit: {fileID: 11400000, guid: 3b76bfd95b03d75499324b84489e06fd, type: 2}
+  droppedSeed: {fileID: 0}
 --- !u!212 &212911260645844780
 SpriteRenderer:
   m_ObjectHideFlags: 1
