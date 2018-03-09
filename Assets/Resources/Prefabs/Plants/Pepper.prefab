@@ -83,30 +83,45 @@ MonoBehaviour:
     posX: 0
     posY: 0
     age: 0
-    yield: 0
+    yield: 1
     value: 0
   type: 0
   spriteRenderer: {fileID: 212222686615159442}
-  yieldStartState: 0
-  yieldEndState: 0
-  yieldPerDay: 2
-  maxYield: 6
-  value: 0
+  yieldState: 0
+  yieldPerDay: 1
+  maxYield: 5
   plantStates:
-  - sprite: {fileID: 21301406, guid: 87501c915365f32488c490f5141f2519, type: 3}
+  - sprite: {fileID: 21301412, guid: 87501c915365f32488c490f5141f2519, type: 3}
     requiredAge: 0
   - sprite: {fileID: 21301578, guid: 87501c915365f32488c490f5141f2519, type: 3}
-    requiredAge: 2
+    requiredAge: 1
   - sprite: {fileID: 21301640, guid: 87501c915365f32488c490f5141f2519, type: 3}
+    requiredAge: 2
+  - sprite: {fileID: 21302022, guid: 87501c915365f32488c490f5141f2519, type: 3}
+    requiredAge: 3
+  - sprite: {fileID: 21301768, guid: 87501c915365f32488c490f5141f2519, type: 3}
     requiredAge: 4
   - sprite: {fileID: 21301768, guid: 87501c915365f32488c490f5141f2519, type: 3}
-    requiredAge: 6
+    requiredAge: 5
   - sprite: {fileID: 21301894, guid: 87501c915365f32488c490f5141f2519, type: 3}
-    requiredAge: 8
+    requiredAge: 6
   - sprite: {fileID: 21302022, guid: 87501c915365f32488c490f5141f2519, type: 3}
-    requiredAge: 16
-  - sprite: {fileID: 21302016, guid: 87501c915365f32488c490f5141f2519, type: 3}
-    requiredAge: 26
+    requiredAge: 20
+  - sprite: {fileID: 21301888, guid: 87501c915365f32488c490f5141f2519, type: 3}
+    requiredAge: 0
+  - sprite: {fileID: 21301018, guid: 87501c915365f32488c490f5141f2519, type: 3}
+    requiredAge: 0
+  plantStateRequiredAge: 0000000001000000020000000300000004000000050000000600000014000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  seed: {fileID: 21301412, guid: 87501c915365f32488c490f5141f2519, type: 3}
+  germ: {fileID: 21301578, guid: 87501c915365f32488c490f5141f2519, type: 3}
+  small: {fileID: 21301640, guid: 87501c915365f32488c490f5141f2519, type: 3}
+  big: {fileID: 21302022, guid: 87501c915365f32488c490f5141f2519, type: 3}
+  flower: {fileID: 21301768, guid: 87501c915365f32488c490f5141f2519, type: 3}
+  smallFruit: {fileID: 21301768, guid: 87501c915365f32488c490f5141f2519, type: 3}
+  fruit: {fileID: 21301894, guid: 87501c915365f32488c490f5141f2519, type: 3}
+  dead: {fileID: 21302022, guid: 87501c915365f32488c490f5141f2519, type: 3}
+  removed: {fileID: 21301888, guid: 87501c915365f32488c490f5141f2519, type: 3}
+  winter: {fileID: 21301018, guid: 87501c915365f32488c490f5141f2519, type: 3}
   droppedFruit: {fileID: 11400000, guid: 0dc6415ecf4888d4992534a8060ddbe7, type: 2}
   droppedSeed: {fileID: 0}
 --- !u!212 &212222686615159442

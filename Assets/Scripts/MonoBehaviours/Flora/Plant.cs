@@ -17,27 +17,30 @@ public class Plant : MonoBehaviour
     public PlantData data;
 
     public PlantType type;
-    private delegate KeyValuePair<int, Item> Harvest();
-    private Harvest harvest;
+    public delegate KeyValuePair<int, Item> Harvest();
+    public Harvest harvest;
+    //public delegate KeyValuePair<int, int> IncreaseAge();
+    //public IncreaseAge increaseAge;
 
     public SpriteRenderer spriteRenderer;       // sprite renderer from current gameObject
-    [SerializeField] private int yieldStartState;
-    [SerializeField] private int yieldEndState;
-    [SerializeField] private int yieldPerDay;
-    [SerializeField] private int maxYield;
-    public int value;               // value of plant, if above threshold higher ranked fruit
-    [Header("Plant States")]
+    public int yieldState;
+    public int yieldPerDay;
+    public int maxYield;
+    
     public PlantState[] plantStates;
-    //public PlantState seed;
-    //public PlantState germ;
-    //public PlantState small;
-    //public PlantState big;
-    //public PlantState flower;
-    //public PlantState smallFruit;
-    //public PlantState fruit;
-    //public PlantState dead;
-    //public PlantState removed;
-    //public PlantState winter;
+    #region temp FieldsForEditor
+    public int[] plantStateRequiredAge = new int[20];
+    public Sprite seed;
+    public Sprite germ;
+    public Sprite small;
+    public Sprite big;
+    public Sprite flower;
+    public Sprite smallFruit;
+    public Sprite fruit;
+    public Sprite dead;
+    public Sprite removed;
+    public Sprite winter;
+    #endregion
     private int currentPlantState;
 
     public Fruit droppedFruit;
@@ -70,23 +73,6 @@ public class Plant : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Updates age, sprite of plant, and yield
-    /// </summary>
-    public void IncreaseAge()
-    {
-        data.age++;
-        if(currentPlantState < plantStates.Length - 1 && data.age >= plantStates[currentPlantState+1].requiredAge)
-        {
-            currentPlantState++;
-            spriteRenderer.sprite = plantStates[currentPlantState].sprite;
-        }
-        if(currentPlantState >= yieldStartState && currentPlantState <= yieldEndState)
-        {
-            data.yield = data.yield + yieldPerDay > maxYield ? maxYield : data.yield + yieldPerDay;
-        }
-    }
-
     public static GameObject CreateObject(PlantData data)
     {
         GameObject go = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/Plants/" + data.name));
@@ -99,23 +85,7 @@ public class Plant : MonoBehaviour
         return go;
     }
 
-    public void SetPlantState()
-    {
-        for (int i = 0; i < plantStates.Length; i++)
-        {
-            if (data.age >= plantStates[i].requiredAge)
-            {
-                continue;
-            }
-            else
-            {
-                currentPlantState = Mathf.Max(0, i - 1);
-                spriteRenderer.sprite = plantStates[currentPlantState].sprite;
-                break;
-            }
-        }
-    }
-
+    #region Harvest
     public KeyValuePair<int, Item> HarvestBush()
     {
         KeyValuePair<int, Item> res = new KeyValuePair<int, Item>(data.yield, droppedFruit);
@@ -181,12 +151,49 @@ public class Plant : MonoBehaviour
         }
         return res;
     }
+    #endregion
+    #region Age&PlantState
+
+    /// <summary>
+    /// Updates age, sprite of plant, and yield
+    /// </summary>
+    public void IncreaseAge()
+    {
+        data.age++;
+        if (currentPlantState < plantStates.Length - 1 && data.age >= plantStates[currentPlantState + 1].requiredAge)
+        {
+            currentPlantState++;
+            spriteRenderer.sprite = plantStates[currentPlantState].sprite;
+            Debug.Log(currentPlantState.ToString() + plantStates[currentPlantState].sprite);
+        }
+        if (currentPlantState >= yieldState)
+        {
+            data.yield = data.yield + yieldPerDay > maxYield ? maxYield : data.yield + yieldPerDay;
+        }
+    }
+
+    public void SetPlantState()
+    {
+        for (int i = 0; i < plantStates.Length; i++)
+        {
+            if (data.age >= plantStates[i].requiredAge)
+            {
+                continue;
+            }
+            else
+            {
+                SwitchState(Mathf.Max(0, i - 1));
+                break;
+            }
+        }
+    }
 
     public void SwitchState(int state)
     {
         currentPlantState = state;
         spriteRenderer.sprite = plantStates[state].sprite;
     }
+    #endregion
 }
 
 [Serializable]
@@ -214,4 +221,10 @@ public struct PlantState
 {
     public Sprite sprite;
     public int requiredAge;
+
+    public PlantState(Sprite sprite, int requiredAge)
+    {
+        this.sprite = sprite;
+        this.requiredAge = requiredAge;
+    }
 }
