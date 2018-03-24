@@ -2,15 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIController : MonoBehaviour {
+public class InventoryUIController : MonoBehaviour {
+
+    public GameObject blendScreen;
 
     public Inventory inventory;
+
+    #region QuickSlots
     public QuickSlots quickSlots;
+    public Transform quickSlotTransform;
+    public Transform quickSlotGameplayUIPosition;
+    public Transform quickSlotInventoryUIPosition;
+    #endregion
 
     private void Start()
     {
         inventory.Initilize();
         quickSlots.Initialize();
+        Close();
     }
 
     // Update is called once per frame
@@ -41,5 +50,31 @@ public class UIController : MonoBehaviour {
             }
         }
         #endregion
+
+        if (Input.GetButtonDown("Inventory"))
+        {
+            Close();
+        }
+    }
+
+
+    /// <summary>
+    /// Opens inventory
+    /// </summary>
+    public void Open()
+    {
+        quickSlotTransform.SetParent(quickSlotInventoryUIPosition);
+        quickSlotTransform.localPosition = Vector3.zero;
+        blendScreen.SetActive(true);
+    }
+
+    /// <summary>
+    /// Closes Inventory
+    /// </summary>
+    public void Close()
+    {
+        quickSlotTransform.SetParent(quickSlotGameplayUIPosition);
+        quickSlotTransform.localPosition = Vector3.zero;
+        blendScreen.SetActive(false);
     }
 }

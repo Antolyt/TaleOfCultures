@@ -10,7 +10,6 @@ public class Inventory : MonoBehaviour {
 
     public int availableSize;
     public UIItem[] uiItems;
-    public GameObject blendScreen;
 
     public bool itemSelected;
     public int selectedItem;
@@ -44,16 +43,6 @@ public class Inventory : MonoBehaviour {
                     uiItems[i].itemImage.enabled = true;
                 }
             }
-        }
-
-        Close();
-    }
-
-    private void Update()
-    {
-        if (Input.GetButtonDown("Inventory"))
-        {
-            Close();
         }
     }
 
@@ -181,24 +170,6 @@ public class Inventory : MonoBehaviour {
     public void Sort()
     {
         //ToDo Implement different sorting alternatives and switch to the next by call of function
-    }
-
-    /// <summary>
-    /// Opens inventory
-    /// </summary>
-    public void Open()
-    {
-        blendScreen.SetActive(true);
-        gameObject.SetActive(true);
-    }
-
-    /// <summary>
-    /// Closes Inventory
-    /// </summary>
-    public void Close()
-    {
-        gameObject.SetActive(false);
-        blendScreen.SetActive(false);
     }
 }
 

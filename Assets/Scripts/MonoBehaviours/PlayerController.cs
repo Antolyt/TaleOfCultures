@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     Vector3 viewingDirection;
+    public InventoryUIController iUIC;
     public Inventory inventory;
     public QuickSlots quickSlots;
     public GameObject itemInHand;
@@ -91,7 +92,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("Inventory"))
         {
-            inventory.Open();
+            iUIC.Open();
         }
 
         #region QuickSlot
