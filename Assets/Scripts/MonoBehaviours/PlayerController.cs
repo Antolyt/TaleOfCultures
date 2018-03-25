@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour
     public QuickSlots quickSlots;
     public GameObject itemInHand;
 
+    public ChestUIController cUIC;
+
     // Use this for initialization
     void Start () {
         viewingDirection = Vector3.down;
@@ -74,7 +76,7 @@ public class PlayerController : MonoBehaviour
                 if (targeter.target.name == "Chest")
                 {
                     Chest chest = targeter.target.GetComponent<Chest>();
-                    chest.Open();
+                    cUIC.Open(chest);
                 }
                 else
                 {

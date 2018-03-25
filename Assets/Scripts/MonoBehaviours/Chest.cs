@@ -27,6 +27,60 @@ public class Chest : ObjectScript
         Chest chest = go.GetComponent<Chest>();
         chest.data = data;
     }
+
+    public bool AddItem(ItemData item)
+    {
+        return AddItem(item, item.count);
+    }
+
+    public bool AddItem(ItemData item, int count)
+    {
+        // check if item exist and increase number
+        for (int i = 0; i < data.items.Length; i++)
+        {
+            if (data.items[i] != null && data.items[i].Equals(item))
+            {
+                data.items[i].count += count;
+                return true;
+            }
+        }
+
+        // add item to first 
+        for (int i = 0; i < data.items.Length; i++)
+        {
+            if (data.items[i] == null || data.items[i].IsNull())
+            {
+                data.items[i] = new ItemData(item.name, count);
+                return true;
+            }
+        }
+
+
+        return false;
+    }
+
+    public bool RemoveItem(ItemData item)
+    {
+        return RemoveItem(item, item.count);
+    }
+
+    private bool RemoveItem(ItemData item, int count)
+    {
+        // check if item exist and increase number
+        for (int i = 0; i < data.items.Length; i++)
+        {
+            if (data.items[i] != null && data.items[i].Equals(item))
+            {
+                if (count < data.items[i].count)
+                    data.items[i].count -= count;
+                else
+                    data.items[i] = null;
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
 
 [Serializable]

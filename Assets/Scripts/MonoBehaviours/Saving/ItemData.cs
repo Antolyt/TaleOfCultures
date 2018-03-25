@@ -20,4 +20,14 @@ public class ItemData
         this.name = name;
         this.count = count;
     }
+
+    public bool Equals(ItemData itemData)
+    {
+        return this.name == itemData.name && this.value == itemData.value;
+    }
+
+    public bool IsNull()
+    {
+        return name == "";
+    }
 }

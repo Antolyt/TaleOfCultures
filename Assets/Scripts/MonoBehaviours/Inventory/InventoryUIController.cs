@@ -66,6 +66,7 @@ public class InventoryUIController : MonoBehaviour {
         quickSlotTransform.SetParent(quickSlotInventoryUIPosition);
         quickSlotTransform.localPosition = Vector3.zero;
         blendScreen.SetActive(true);
+        this.gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -76,5 +77,6 @@ public class InventoryUIController : MonoBehaviour {
         quickSlotTransform.SetParent(quickSlotGameplayUIPosition);
         quickSlotTransform.localPosition = Vector3.zero;
         blendScreen.SetActive(false);
+        this.gameObject.SetActive(false);
     }
 }
