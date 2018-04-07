@@ -70,7 +70,7 @@ public class QuickSlots : MonoBehaviour {
     /// Removes one Item in QuickSlots and referenced item in inventory
     /// </summary>
     /// <param name="i">index of quickSlot</param>
-    public void RemoveItem(int i)
+    public void RemoveOneItem(int i)
     {
         // text of number of items either empty or > 2
         if (quickSlotItems[i] != null)
@@ -91,12 +91,12 @@ public class QuickSlots : MonoBehaviour {
             }
         }
 
-        inventory.RemoveItem(inventoryReference[i]);
+        inventory.RemoveItem(inventoryReference[i], 1);
     }
 
     public void RemoveSelectedItem()
     {
-        RemoveItem(selectedQuickSlot);
+        RemoveOneItem(selectedQuickSlot);
     }
 
     /// <summary>

@@ -22591,8 +22591,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7aae0fe885efaa64cba52397b6d113bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pc: {fileID: 951532634}
   blendScreen: {fileID: 1647515189}
   inventory: {fileID: 1848463530}
+  inventoryTransform: {fileID: 1848463528}
+  inventoryInventoryUIPosition: {fileID: 694036563}
   quickSlots: {fileID: 987623150}
   quickSlotTransform: {fileID: 987623149}
   quickSlotGameplayUIPosition: {fileID: 715586337}
@@ -26647,8 +26650,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0be15a4ff4744094dbe234aa4a9b0f6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pc: {fileID: 951532634}
+  eventSystem: {fileID: 1173096551}
   blendScreen: {fileID: 1647515189}
-  Inventory: {fileID: 115661098}
+  inventory: {fileID: 1848463530}
+  inventoryTransform: {fileID: 1848463528}
+  inventoryChestUIPosition: {fileID: 1564474113}
   uiItems:
   - itemImage: {fileID: 1931818119}
     item: {fileID: 0}
@@ -26657,7 +26664,7 @@ MonoBehaviour:
     item: {fileID: 0}
     itemCount: {fileID: 1547044845}
   itemSelected: 0
-  selectedItem: 0
+  selectedItemIndex: 0
 --- !u!1 &1951012812
 GameObject:
   m_ObjectHideFlags: 0

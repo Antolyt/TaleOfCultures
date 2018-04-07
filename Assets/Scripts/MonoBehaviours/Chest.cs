@@ -59,6 +59,11 @@ public class Chest : ObjectScript
         return false;
     }
 
+    public bool RemoveItem(int index)
+    {
+        return RemoveItem(data.items[index]);
+    }
+
     public bool RemoveItem(ItemData item)
     {
         return RemoveItem(item, item.count);

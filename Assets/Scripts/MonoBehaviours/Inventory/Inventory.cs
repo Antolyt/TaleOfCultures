@@ -109,9 +109,8 @@ public class Inventory : MonoBehaviour {
             {
                 if (uiItems[i].itemCount.text == "")
                 {
-                    uiItems[i].item = null;
-                    uiItems[i].itemImage.sprite = null;
-                    uiItems[i].itemImage.enabled = false;
+                    RemoveItem(i);
+                    quickSlots.ClearItem(i);
                 }
                 else if (uiItems[i].itemCount.text == "2")
                 {
@@ -128,26 +127,38 @@ public class Inventory : MonoBehaviour {
     }
 
     /// <summary>
-    /// Removes one item at index from inventory
+    /// Removes all items at index from inventory
     /// </summary>
     /// <param name="i">index of inventorySlot</param>
     public void RemoveItem(int i)
     {
+        uiItems[i].item = null;
+        uiItems[i].itemImage.sprite = null;
+        uiItems[i].itemImage.enabled = false;
+        uiItems[i].itemCount.text = "";
+        quickSlots.ClearItem(i);
+    }
+
+    /// <summary>
+    /// Removes "count" items at index from inventory
+    /// </summary>
+    /// <param name="i">index of inventorySlot</param>
+    /// <param name="count">number of items to remove</param>
+    public void RemoveItem(int i, int count)
+    {
         if (uiItems[i] != null && uiItems[i].item != null)
         {
-            if (uiItems[i].itemCount.text == "")
+            if (int.Parse(uiItems[i].itemCount.text) <= count)
             {
-                uiItems[i].item = null;
-                uiItems[i].itemImage.sprite = null;
-                uiItems[i].itemImage.enabled = false;
+                RemoveItem(i);
             }
-            else if (uiItems[i].itemCount.text == "2")
+            else if (int.Parse(uiItems[i].itemCount.text) == count - 1)
             {
                 uiItems[i].itemCount.text = "";
             }
             else
             {
-                uiItems[i].itemCount.text = (Int32.Parse(uiItems[i].itemCount.text) - 1).ToString();
+                uiItems[i].itemCount.text = (Int32.Parse(uiItems[i].itemCount.text) - count).ToString();
             }
 
             return;

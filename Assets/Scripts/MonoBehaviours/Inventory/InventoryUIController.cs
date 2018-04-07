@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryUIController : MonoBehaviour {
-
+public class InventoryUIController : MonoBehaviour
+{
+    public PlayerController pc;
     public GameObject blendScreen;
 
     public Inventory inventory;
+    public Transform inventoryTransform;
+    public Transform inventoryInventoryUIPosition;
 
     #region QuickSlots
     public QuickSlots quickSlots;
@@ -54,6 +57,7 @@ public class InventoryUIController : MonoBehaviour {
         if (Input.GetButtonDown("Inventory"))
         {
             Close();
+            pc.enabled = true;
         }
     }
 
@@ -63,8 +67,12 @@ public class InventoryUIController : MonoBehaviour {
     /// </summary>
     public void Open()
     {
+        pc.enabled = false;
+
         quickSlotTransform.SetParent(quickSlotInventoryUIPosition);
         quickSlotTransform.localPosition = Vector3.zero;
+        inventoryTransform.SetParent(inventoryInventoryUIPosition);
+        inventoryTransform.localPosition = Vector3.zero;
         blendScreen.SetActive(true);
         this.gameObject.SetActive(true);
     }
