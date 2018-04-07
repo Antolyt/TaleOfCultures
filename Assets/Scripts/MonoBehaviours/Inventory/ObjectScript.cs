@@ -20,14 +20,14 @@ public class ObjectScript : MonoBehaviour {
 public class ObjectData
 {
     public string name;
-    public Guid guid;
+    public string id;
     public int posX;
     public int posY;
 
-    public ObjectData(string name, Vector3 position)
+    public ObjectData(string name, string id, Vector3 position)
     {
         this.name = name;
-        this.guid = Guid.NewGuid();
+        this.id = id;
         this.posX = (int)Math.Round(position.x);
         this.posY = (int)Math.Round(position.y);
     }

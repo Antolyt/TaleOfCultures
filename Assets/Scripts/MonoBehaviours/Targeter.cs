@@ -16,13 +16,13 @@ public class Targeter : MonoBehaviour {
     {
         if(!targets.ContainsKey(collider.name))
             AddTarget(collider.gameObject);
-        Debug.Log("entered" + collider.name);
+        //Debug.Log("entered" + collider.name);
     }
 
     private void OnTriggerExit2D(Collider2D collider)
     {
         RemoveTarget(collider.gameObject);
-        Debug.Log("left" + collider.name);
+        //Debug.Log("left" + collider.name);
     }
 
     public void AddTarget(GameObject gameObject)

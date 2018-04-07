@@ -39,7 +39,7 @@ public class Savegame : MonoBehaviour
     /// <summary>
     /// Save Game
     /// </summary>
-    public static void Save(GameObject plants, Inventory inventory, QuickSlots quickSlots)
+    public static void Save(GameObject plants, GameObject chests, Inventory inventory, QuickSlots quickSlots)
     {
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Create(saveGamePath);
@@ -63,6 +63,12 @@ public class Savegame : MonoBehaviour
         for(int i = 0; i < QuickSlots.SIZE; i++)
         {
             savegameData.inventoryQuickSlotRef[i] = quickSlots.inventoryReference[i];
+        }
+
+        // Save Chests
+        foreach(Chest chest in chests.GetComponentsInChildren<Chest>())
+        {
+            savegameData.chests.Add(chest.data);
         }
 
         bf.Serialize(file, savegameData);
@@ -96,20 +102,19 @@ public class Savegame : MonoBehaviour
 public class SavegameData
 {
     public List<PlantData> plants;
+    public List<ChestData> chests;
 
     // Inventory & Items
     public int inventorySize;
     public ItemData[] inventoryItems;
     public int[] inventoryQuickSlotRef;
 
-    public int chestIdCounter;
-    public ChestData[] chests;
-
     // NPC
 
     public SavegameData()
     {
         plants = new List<PlantData>();
+        chests = new List<ChestData>();
         inventoryItems = new ItemData[20];
         inventoryQuickSlotRef = new int[QuickSlots.SIZE];
         for (int i = 0; i < QuickSlots.SIZE; i++)

@@ -205,4 +205,9 @@ public class UIItem
         else
             return null;
     }
+
+    public bool isNull()
+    {
+        return itemImage == null || item == null;
+    }
 }

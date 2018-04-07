@@ -20,12 +20,14 @@ public class Chest : ObjectScript
         spriteRenderer.sprite = closed;
     }
 
-    public static void CreateObject(ChestData data)
+    public static GameObject CreateObject(ChestData data)
     {
         GameObject go = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>(data.name));
         go.transform.position = data.Position();
         Chest chest = go.GetComponent<Chest>();
         chest.data = data;
+
+        return go;
     }
 
     public bool AddItem(ItemData item)
@@ -93,7 +95,7 @@ public class ChestData : ObjectData
 {
     public ItemData[] items;
 
-    public ChestData(string name, Vector3 position, int size) : base(name, position)
+    public ChestData(string name, string id, Vector3 position, int size) : base(name, id, position)
     {       
         items = new ItemData[size];
     }

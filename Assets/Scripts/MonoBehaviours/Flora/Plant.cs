@@ -164,7 +164,6 @@ public class Plant : MonoBehaviour
         {
             currentPlantState++;
             spriteRenderer.sprite = plantStates[currentPlantState].sprite;
-            Debug.Log(currentPlantState.ToString() + plantStates[currentPlantState].sprite);
         }
         if (currentPlantState >= yieldState)
         {
@@ -203,12 +202,12 @@ public class PlantData : ObjectData
     public int yield;               // number of plants, which can be collected
     public int value;               // value of plant, if above threshold higher ranked fruit
 
-    public PlantData(string name, Vector3 position) : base(name, position)
+    public PlantData(string name, string id, Vector3 position) : base(name, id, position)
     {
 
     }
 
-    public PlantData(string name, Vector3 position, int age, int yield, int value) : base(name, position)
+    public PlantData(string name, string id, Vector3 position, int age, int yield, int value) : base(name, id, position)
     {
         this.age = age;
         this.yield = yield;

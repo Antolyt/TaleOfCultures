@@ -34,24 +34,31 @@ public class ChestUIController : MonoBehaviour
             // get selected Item index and parent
             string parentName = eventSystem.currentSelectedGameObject.transform.parent.name;
             selectedItemIndex = int.Parse(eventSystem.currentSelectedGameObject.name.Split('t')[2]);
-            if(parentName == "Inventory")
-            {
-                // Transfer whole itenStack to chest
-                UIItem selectedUIItem = inventory.uiItems[selectedItemIndex];
-                activeChest.AddItem(new ItemData(selectedUIItem.item.name, int.Parse(selectedUIItem.itemCount.text)));
-                inventory.RemoveItem(selectedItemIndex);
 
-                UpdateUI();
+            if (parentName == "Inventory")
+            {
+                if (!inventory.uiItems[selectedItemIndex].isNull())
+                {
+                    // Transfer whole itenStack to chest
+                    UIItem selectedUIItem = inventory.uiItems[selectedItemIndex];
+                    activeChest.AddItem(new ItemData(selectedUIItem.item.name, int.Parse(selectedUIItem.itemCount.text)));
+                    inventory.RemoveItem(selectedItemIndex);
+
+                    UpdateUI();
+                }
             }
             // case Chest
             else
             {
-                // Transfer whole itenStack to inventory
-                UIItem selectedUIItem = uiItems[selectedItemIndex];
-                inventory.AddItem(selectedUIItem.item, int.Parse(selectedUIItem.itemCount.text));
-                activeChest.RemoveItem(selectedItemIndex);
+                if (!uiItems[selectedItemIndex].isNull())
+                {
+                    // Transfer whole itenStack to inventory
+                    UIItem selectedUIItem = uiItems[selectedItemIndex];
+                    inventory.AddItem(selectedUIItem.item, int.Parse(selectedUIItem.itemCount.text));
+                    activeChest.RemoveItem(selectedItemIndex);
 
-                UpdateUI();
+                    UpdateUI();
+                }
             }
         }
     }
