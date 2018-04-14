@@ -13,22 +13,22 @@ public class Chests : MonoBehaviour
         // Set plants on field from saveData
         if (Savegame.savegameData != null)
         {
-            foreach(Chest cd in GetComponentsInChildren<Chest>())
+            foreach(Chest chest in GetComponentsInChildren<Chest>())
             {
-                chestIds.Add(cd.data.id);
+                chestIds.Add(chest.data.id);
             }
 
             foreach (ChestData cd in Savegame.savegameData.chests)
             {
-                int? i = chestIds.FindIndex(a => a == cd.id);
-                if (i == null)
+                int i = chestIds.FindIndex(a => a == cd.id);
+                if (i == -1)
                 {
                     GameObject plant = Chest.CreateObject(cd);
                     plant.transform.parent = transform;
                 }
                 else
                 {
-                    this.transform.GetChild(i.Value).GetComponent<Chest>().data = cd;
+                    this.transform.GetChild(i).GetComponent<Chest>().data = cd;
                 }
             }
         }

@@ -8,6 +8,8 @@ public class PlantEditor : Editor
 {
     //SerializedProperty typeProp;
 
+    //SerializedProperty idProperty;
+
     //SerializedProperty ageProp;
     SerializedProperty yieldProp;
     SerializedProperty valueProp;
@@ -33,6 +35,8 @@ public class PlantEditor : Editor
     {
         // Setup the SerializedProperties
         //typeProp = serializedObject.FindProperty("type");
+
+        //idProperty = serializedObject.FindProperty("data.id");
 
         //ageProp = serializedObject.FindProperty("data.age");
         yieldProp = serializedObject.FindProperty("data.yield");
@@ -62,10 +66,12 @@ public class PlantEditor : Editor
     {
         Plant plant = (Plant)target;
 
+        plant.data.id = EditorGUILayout.TextField("ID", plant.data.id);
+
         plant.type = (PlantType)EditorGUILayout.EnumPopup("Type", plant.type);
         serializedObject.Update();
 
-        switch(plant.type)
+        switch (plant.type)
         {
             case PlantType.Bush:
                 DrawBasicInfo(plant);
