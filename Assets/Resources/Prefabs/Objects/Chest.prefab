@@ -100,6 +100,7 @@ MonoBehaviour:
   open: {fileID: 21301142, guid: c5f87d9520cc1ed4fac25276024b2c5a, type: 3}
   data:
     name: 
+    id: 
     posX: 0
     posY: 0
     items:
@@ -177,7 +178,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 8845a80b23e2ed44ba7f704778db256f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

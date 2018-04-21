@@ -109,6 +109,10 @@ public class SavegameData
     public ItemData[] inventoryItems;
     public int[] inventoryQuickSlotRef;
 
+    public float time;
+    public int day;
+    public int month;
+
     // NPC
 
     public SavegameData()
