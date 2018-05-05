@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class GameTimeController : MonoBehaviour {
 
-    public Light light;
+    public Light sun;
     public Text text;
 
     public int startHour;
@@ -116,7 +116,7 @@ public class GameTimeController : MonoBehaviour {
 
     public void UpdateLight()
     {
-        light.intensity = lightIntensity.Evaluate(time / 24);
-        light.color = new Color(lightRed.Evaluate(time / 24), lightBlue.Evaluate(time / 24), lightGreen.Evaluate(time / 24));
+        sun.intensity = lightIntensity.Evaluate(time / 24);
+        sun.color = new Color(lightRed.Evaluate(time / 24), lightBlue.Evaluate(time / 24), lightGreen.Evaluate(time / 24));
     }
 }

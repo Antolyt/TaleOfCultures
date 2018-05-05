@@ -14,6 +14,12 @@ public class Fruit : Item
     ItemRanking fruitRanking;
 }
 
+[CreateAssetMenu(fileName = "Tool", menuName = "Item/Tool", order = 1)]
+public class Toll : Item
+{
+
+}
+
 public class Seed : Item
 {
 
