@@ -30,6 +30,13 @@ public class GameTimeController : MonoBehaviour {
     static int day;
     static int month;
 
+    public delegate void newDay();
+    public static event newDay OnNewDay;
+    public delegate void newMonth();
+    public static event newMonth OnNewMonth;
+    public delegate void newYear();
+    public static event newYear OnNewYear;
+
     private float pastSeconds;
 
     const int lightUpdateOffset = 1;
@@ -63,30 +70,42 @@ public class GameTimeController : MonoBehaviour {
 	void Update ()
     {
         pastSeconds += Time.deltaTime * timeSpeed;
+        // Minutes
 		if(pastSeconds >= timeRoundingInvervallInMinutes)
         {
             pastSeconds = 0;
 
+            // Hours
             if (minutes == 60 - timeRoundingInvervallInMinutes)
             {
                 minutes = 0;
 
-                // new Day
+                // Day
                 if (hours == 23)
                 {
                     hours = 0;
 
+                    // Month
                     if (day == daysPerMonth)
                     {
                         day = 1;
 
+                        // Year
                         if (month == monthPerYear)
+                        {
                             month = 1;
+
+                            OnNewYear();
+                        }
                         else
                             month++;
+
+                        OnNewYear();
                     }
                     else
                         day++;
+
+                    OnNewDay();
                 }
                 else
                     hours++;

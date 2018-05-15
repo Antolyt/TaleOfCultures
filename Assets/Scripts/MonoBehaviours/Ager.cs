@@ -13,7 +13,7 @@ public class Ager : MonoBehaviour {
         {
             foreach(Plant plant in transform.GetComponentsInChildren<Plant>())
             {
-                plant.IncreaseAge();
+                //plant.IncreaseAge();
             }
             timeStemp = Time.time;
         }

@@ -54,6 +54,8 @@ public class Plant : MonoBehaviour
         spriteRenderer.sortingOrder = -(int)data.posY;
         SetPlantState();
 
+        GameTimeController.OnNewDay += IncreaseAge;
+
         switch (type)
         {
             case PlantType.Bush:
@@ -81,6 +83,8 @@ public class Plant : MonoBehaviour
         go.transform.position = data.Position();
         plant.spriteRenderer.sortingOrder = -(int)data.posY;
         plant.SetPlantState();
+
+
 
         return go;
     }
@@ -193,7 +197,14 @@ public class Plant : MonoBehaviour
         spriteRenderer.sprite = plantStates[state].sprite;
     }
     #endregion
+
+    private void OnDestroy()
+    {
+        GameTimeController.OnNewDay -= IncreaseAge;
+    }
 }
+
+
 
 [Serializable]
 public class PlantData : ObjectData
